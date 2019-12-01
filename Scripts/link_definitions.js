@@ -65,7 +65,7 @@ function MakeLinks()
         definitions.forEach(function(shaderField)
         {
             var destination = includes.filter( function(include){return (include.name==shaderField.Include);} );
-            var page = "https://xibanya.github.io/UnityShaderViewer/Library/" + destination + shaderField.Include + ".html";
+            var page = "https://xibanya.github.io/UnityShaderViewer/Library/" + destination.URL + shaderField.Include + ".html";
             var linkString = page;
             if (shaderField.Field != shaderField.Include) linkString += "#" + shaderField.Field;
             var newTag = "<a href=\"" + linkString + "\">" + shaderField.Field + "</a>";
