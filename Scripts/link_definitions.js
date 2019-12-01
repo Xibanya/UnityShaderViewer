@@ -1,9 +1,14 @@
+var includes = null;
+var includesRequest = new XMLHttpRequest();
+includesRequest.open("GET", "https://xibanya.github.io/UnityShaderViewer/Data/Includes.json", true);
+includesRequest.send();
+
 var definitions = null;
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onload = MakeLinks;
-xmlhttp.onreadystatechange = MakeLinks;
-xmlhttp.open("GET", "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.json", true);
-xmlhttp.send();
+var definitionsRequest = new XMLHttpRequest();
+definitionsRequest.onload = MakeLinks;
+definitionsRequest.onreadystatechange = MakeLinks;
+definitionsRequest.open("GET", "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.json", true);
+definitionsRequest.send();
 var target = getUrlParam(
         'target',
         'Empty'
@@ -28,7 +33,7 @@ if (target != null && target != "Empty")
 function LoadShader()
 {
     var target = document.getElementById("shader_url").value;
-    var destination = "https://xibanya.github.io/UnityShaderViewer/Tools/Viewer.html?target=" + target;
+    var destination = "https://xibanya.github.io/ShaderTutorials/CGIncludes/Viewer.html?target=" + target;
     self.location.replace(destination);
 }
 function getUrlVars() {
@@ -47,18 +52,22 @@ function getUrlParam(parameter, defaultvalue){
 }
 function MakeLinks()
 {
-    if (definitions == null && xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+    if (definitions == null && definitionsRequest.readyState == 4 && definitionsRequest.status == 200) 
     {
-        definitions = JSON.parse(xmlhttp.responseText);
-        var pageName = location.href.split("/").slice(-1);
-        console.log("page name is " + pageName)
+        definitions = JSON.parse(definitionsRequest.responseText);
+    }
+    if (includes == null && includesRequest.readyState == 4 && includesRequest.status == 200) 
+    {
+        includes = JSON.parse(includesRequest.responseText);
     }
     if (definitions != null)
     {
         definitions.forEach(function(shaderField)
         {
-            var page = "https://xibanya.github.io/ShaderTutorials/CGIncludes/" + shaderField.Include + ".html";
-            var linkString = page + "#" + shaderField.Field;
+            var destination = includes.filter( function(include){return (include.name==shaderField.Include);} );
+            var page = "https://xibanya.github.io/UnityShaderViewer/Library/" + destination + shaderField.Include + ".html";
+            var linkString = page;
+            if (shaderField.Field != shaderField.Include) linkString += "#" + shaderField.Field;
             var newTag = "<a href=\"" + linkString + "\">" + shaderField.Field + "</a>";
             findAndReplace(shaderField.Field, newTag, document.getElementById("shader"));
         });
