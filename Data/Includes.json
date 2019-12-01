@@ -1,0 +1,82 @@
+[
+    {
+        "ID": 1,
+        "Name": "UnityDeferredLibrary",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 2,
+        "Name": "UnityCG",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 3,
+        "Name": "UnityGBuffer",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 4,
+        "Name": "UnityGlobalIllumination",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 5,
+        "Name": "UnityImageBasedLighting",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 6,
+        "Name": "UnityLightingCommon",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 7,
+        "Name": "UnityPBSLighting",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 8,
+        "Name": "UnityShaderUtilities",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 9,
+        "Name": "UnityShaderVariables",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 10,
+        "Name": "UnityShadowLibrary",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 11,
+        "Name": "UnityStandardBRDF",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 12,
+        "Name": "UnityStandardConfig",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 13,
+        "Name": "UnityStandardInput",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 14,
+        "Name": "UnityStandardMeta",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 15,
+        "Name": "UnityStandardUtils",
+        "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 16,
+        "Name": "TerrainTools",
+        "URL": "BuiltinShaders/CGIncludes/"
+    }
+]
