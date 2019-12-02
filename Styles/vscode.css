@@ -1,16 +1,8 @@
-body 
-{ 
-  color:#C586C0;
-  background-color:#1E1E1E; 
-}
-pre .nocode 
-{ 
-  background-color: #AEAEAE; 
-  color: #1E1E1E;
-}
+
 code.prettyprint,
 pre.prettyprint
-{ background-color:#1E1E1E; 
+{ 
+  background-color:#1E1E1E; 
   border-radius:8px
 }
 pre.prettyprint
@@ -32,36 +24,12 @@ pre .atn { color: #bdb76b; font-weight: bold } /* attribute name  - khaki */
 pre .atv { color: #ce9178 } /* attribute value */
 pre .dec { color: #b5cea8 } /* decimal   */
 pre .dir { color: #C586C0 } /* directive   */
-pre a {
-  -webkit-transition: all .3s;
-   -moz-transition: all .3s;
-   transition: all .3s;
+pre a 
+{
    color: inherit; 
-   font-weight: bold;
    font-size: 115%;
-}
-pre a:link {
-  text-decoration: none;
-}
-pre a:hover {
-  text-decoration: underline;
 }
 
 /* Specify class=linenums on a pre to get line numbering */
 ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE } /* IE indents via margin-left */
 li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: decimal !important; }
-
-@media print {
-  pre.prettyprint { background-color: none }
-  pre .str, code .str { color: #060 }
-  pre .kwd, code .kwd { color: #006; font-weight: bold }
-  pre .com, code .com { color: #600; font-style: italic }
-  pre .typ, code .typ { color: #404; font-weight: bold }
-  pre .lit, code .lit { color: #044 }
-  pre .pun, code .pun { color: #440 }
-  pre .pln, code .pln { color: #000 }
-  pre .tag, code .tag { color: #006; font-weight: bold }
-  pre .atn, code .atn { color: #404 }
-  pre .atv, code .atv { color: #060 }
-  pre .dir, code .dir { color: #C586C0 }
-}

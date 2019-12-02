@@ -1,0 +1,59 @@
+/* 
+Theme Name: Shader Code
+Author: Xibanya
+URL: https://xibanya.github.io/UnityShaderViewer
+*/
+:root 
+{
+    --radius: 8px;
+    --bgColor:#1E1E1E;
+    --fgColor: #AEAEAE;
+    --comment: #6A9955;
+    --directive: #C586C0;
+    --string: #ce9178;
+    --keyword: #569cd6;
+    --type: #9cdcfe;
+    --number: #b5cea8;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap');
+body 
+{ 
+  color: var(--directive);
+  background-color: var(--bgColor);
+  font-family: 'Montserrat', sans-serif;
+}
+a 
+{
+    font-weight: bold;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    transition: all .3s;
+}
+a:link 
+{
+    text-decoration: none;
+}
+a:hover 
+{
+    text-decoration: underline;
+}
+code.prettyprint,
+pre.prettyprint
+{ 
+    background-color: var(--bgColor); 
+    border-radius: var(--radius);
+    font-family: 'Inconsolata', monospace;
+}
+pre.prettyprint
+{
+  width:95%; 
+  margin:0.5em auto; 
+  padding:0.5em; 
+  white-space:pre-wrap;
+}
+pre .nocode 
+{ 
+    font-family: 'Montserrat', sans-serif;
+    color: var(--fgColor); 
+}
