@@ -33,7 +33,7 @@ if (target != null && target != "Empty")
 function LoadShader()
 {
     var target = document.getElementById("shader_url").value;
-    var destination = "https://xibanya.github.io/ShaderTutorials/CGIncludes/Viewer.html?target=" + target;
+    var destination = "https://xibanya.github.io/UnityShaderViewer/Tools/Viewer.html?target=" + target;
     self.location.replace(destination);
 }
 function getUrlVars() {
