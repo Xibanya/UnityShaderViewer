@@ -1,10 +1,25 @@
-body { background-color:#1E1E1E; }
-pre .nocode { background-color: none; color: #1E1E1E }
-
+body 
+{ 
+  color:#C586C0;
+  background-color:#1E1E1E; 
+}
+pre .nocode 
+{ 
+  background-color: #AEAEAE; 
+  color: #1E1E1E;
+}
 code.prettyprint,
-pre.prettyprint{background-color:#1E1E1E; border-radius:8px}
-pre.prettyprint{width:95%; margin:1em auto; padding:1em; white-space:pre-wrap}
-
+pre.prettyprint
+{ background-color:#1E1E1E; 
+  border-radius:8px
+}
+pre.prettyprint
+{
+  width:95%; 
+  margin:0.5em auto; 
+  padding:0.5em; 
+  white-space:pre-wrap;
+}
 pre .str { color: #ce9178 } /* string  */
 pre .kwd { color: #569cd6; font-weight: bold }
 pre .com { color: #6A9955 } /* comment - skyblue */
@@ -34,7 +49,7 @@ pre a:hover {
 
 /* Specify class=linenums on a pre to get line numbering */
 ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE } /* IE indents via margin-left */
-li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: none }
+li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: decimal !important; }
 
 @media print {
   pre.prettyprint { background-color: none }
