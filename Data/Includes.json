@@ -78,5 +78,15 @@
         "ID": 16,
         "Name": "TerrainTool",
         "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 17,
+        "Name": "Internal-Skinning-Util",
+        "URL": "BuiltinShaders/DefaultResourcesExtra/"
+    },
+    {
+        "ID": 18,
+        "Name": "HLSLSupport",
+        "URL": "BuiltinShaders/CGIncludes/"
     }
 ]

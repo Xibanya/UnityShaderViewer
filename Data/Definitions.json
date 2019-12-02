@@ -2161,5 +2161,593 @@
         "Include": "UnityDeferredLibrary",
         "Official Comments": "Common lighting data calculation (direction, attenuation, ...)",
         "Overload": null
+    },
+    {
+        "Field": "Internal-Skinning-Util",
+        "ID": 310,
+        "Include": "Internal-Skinning-Util",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "STRUCTURED_BUFFER_SUPPORT",
+        "ID": 311,
+        "Include": "Internal-Skinning-Util",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "MeshVertex",
+        "ID": 312,
+        "Include": "Internal-Skinning-Util",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "HLSLSupport",
+        "ID": 313,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_COMPILER_CG",
+        "ID": 314,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_COMPILER_HLSL",
+        "ID": 315,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_COMPILER_HLSLCC",
+        "ID": 316,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_COMPILER_HLSL2GLSL",
+        "ID": 317,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_STEREO_MULTIVIEW_ENABLED",
+        "ID": 318,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_STEREO_INSTANCING_ENABLED",
+        "ID": 319,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SUPPORT_DEPTH_FETCH",
+        "ID": 320,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target",
+        "ID": 321,
+        "Include": "HLSLSupport",
+        "Official Comments": "You should always declare color inouts against SV_Target",
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target0",
+        "ID": 322,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target1",
+        "ID": 323,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target2",
+        "ID": 324,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target3",
+        "ID": 325,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target4",
+        "ID": 326,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target5",
+        "ID": 327,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target6",
+        "ID": 328,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SV_Target7",
+        "ID": 329,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR",
+        "ID": 330,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR1",
+        "ID": 331,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR2",
+        "ID": 332,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR3\n",
+        "ID": 333,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR4",
+        "ID": 334,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR5",
+        "ID": 335,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR6",
+        "ID": 336,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "COLOR7",
+        "ID": 337,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_ALLOWED_MRT_COUNT",
+        "ID": 338,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_FAST_COHERENT_DYNAMIC_BRANCHING",
+        "ID": 339,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SAMPLER_UNIFORM",
+        "ID": 340,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SHADER_UNIFORM",
+        "ID": 341,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "nointerpolation",
+        "ID": 342,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "noperspective",
+        "ID": 343,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "CBUFFER_START",
+        "ID": 344,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "CBUFFER_END",
+        "ID": 345,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_REQUIRE_ADVANCED_BLEND",
+        "ID": 346,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_PROJ_COORD",
+        "ID": 347,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SampleCubeReflection",
+        "ID": 348,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "samplerRECT",
+        "ID": 349,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "texRECT",
+        "ID": 350,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "texRECTlod",
+        "ID": 351,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "texRECTbias",
+        "ID": 352,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "texRECTproj",
+        "ID": 353,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "VPOS",
+        "ID": 354,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_VPOS_TYPE",
+        "ID": 355,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "FOGC",
+        "ID": 356,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "VFACE",
+        "ID": 357,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "FACE",
+        "ID": 358,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_POSITION",
+        "ID": 359,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_ATTEN_CHANNEL",
+        "ID": 360,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_UV_STARTS_AT_TOP",
+        "ID": 361,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_REVERSED_Z",
+        "ID": 362,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_NEAR_CLIP_VALUE",
+        "ID": 363,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_USE_RGBA_FOR_POINT_SHADOWS",
+        "ID": 364,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_INITIALIZE_OUTPUT",
+        "ID": 365,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SAMPLE_1CHANNEL",
+        "ID": 366,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_ALPHA_CHANNEL",
+        "ID": 367,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_BRANCH",
+        "ID": 368,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_FLATTEN",
+        "ID": 369,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_UNROLL",
+        "ID": 370,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_LOOP",
+        "ID": 371,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_FASTOPT",
+        "ID": 372,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SM40_PLUS_PLATFORM",
+        "ID": 373,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "CBUFFER_START_WITH_BINDING",
+        "ID": 374,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "DECL_WITH_BINDING",
+        "ID": 375,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "HDR_LIGHT_PREPASS_ON",
+        "ID": 376,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_NO_LINEAR_COLORSPACE",
+        "ID": 377,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "DIRLIGHTMAP_OFF",
+        "ID": 378,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "LIGHTMAP_OFF",
+        "ID": 379,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "DYNAMICLIGHTMAP_OFF",
+        "ID": 380,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_DEPTH_TEXTURE_MS",
+        "ID": 381,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_DEPTH_TEXTURE",
+        "ID": 382,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_SCREENSPACE_SHADOWMAP",
+        "ID": 383,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SAMPLE_SCREEN_SHADOW",
+        "ID": 384,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_SCREENSPACE_TEXTURE",
+        "ID": 385,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SAMPLE_SCREENSPACE_TEXTURE",
+        "ID": 386,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SEPARATE_TEXTURE_SAMPLER",
+        "ID": 387,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_TEX2D",
+        "ID": 388,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_TEX2D_NOSAMPLER",
+        "ID": 389,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_TEX2D_NOSAMPLER_INT",
+        "ID": 390,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_DECLARE_TEX2D_NOSAMPLER_UINT",
+        "ID": 391,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SAMPLE_TEX2D",
+        "ID": 392,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SAMPLE_TEX2D_SAMPLER",
+        "ID": 393,
+        "Include": "HLSLSupport",
+        "Official Comments": null,
+        "Overload": null
     }
 ]
