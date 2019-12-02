@@ -1,5 +1,7 @@
 var includes = null;
 var includesRequest = new XMLHttpRequest();
+includesRequest.onload = MakeLinks;
+includesRequest.onreadystatechange = MakeLinks;
 includesRequest.open("GET", "https://xibanya.github.io/UnityShaderViewer/Data/Includes.json", true);
 includesRequest.send();
 
