@@ -76,7 +76,7 @@
     },
     {
         "ID": 16,
-        "Name": "TerrainTools",
+        "Name": "TerrainTool",
         "URL": "BuiltinShaders/CGIncludes/"
     }
 ]
