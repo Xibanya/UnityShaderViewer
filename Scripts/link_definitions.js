@@ -50,8 +50,10 @@ function getUrlParam(parameter, defaultvalue){
         }
     return urlparameter;
 }
+var madeLinks;
 function MakeLinks()
 {
+    AddStyle("https://xibanya.github.io/UnityShaderViewer/Styles/Style.css");
     if (definitions == null && definitionsRequest.readyState == 4 && definitionsRequest.status == 200) 
     {
         definitions = JSON.parse(definitionsRequest.responseText);
@@ -60,7 +62,7 @@ function MakeLinks()
     {
         includes = JSON.parse(includesRequest.responseText);
     }
-    if (definitions != null)
+    if (!madeLinks && definitions != null && includes != null)
     {
         definitions.forEach(function(shaderField)
         {
@@ -78,13 +80,14 @@ function MakeLinks()
             if (shaderField.Field != shaderField.Include) linkString += "#" + shaderField.Field;
             var newTag = "<a href=\"" + linkString + "\">" + shaderField.Field + "</a>";
             findAndReplace(shaderField.Field, newTag, document.getElementById("shader"));
+            madeLinks = true;
         });
     }
-    else { console.log("no definitions!"); }
 }
 
 //adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
-function findAndReplace(searchText, replacement, searchNode) {
+function findAndReplace(searchText, replacement, searchNode) 
+{
     if (!searchText || typeof replacement === 'undefined') {
         // Throw error here if you want...
         return;
@@ -118,3 +121,18 @@ function findAndReplace(searchText, replacement, searchNode) {
         parent.removeChild(currentNode);
     }
 };
+
+function AddStyle(path)
+{
+    var existing = document.getElementById("MainStyle");
+    if (existing == null)
+    {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';  
+        link.type = 'text/css'; 
+        link.id = "MainStyle"
+        link.href = path;
+        head.appendChild(link);  
+    }
+}
