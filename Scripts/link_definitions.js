@@ -1,16 +1,107 @@
-var includes = null;
-var includesRequest = new XMLHttpRequest();
-includesRequest.onload = MakeLinks;
-includesRequest.onreadystatechange = MakeLinks;
-includesRequest.open("GET", "https://xibanya.github.io/UnityShaderViewer/Data/Includes.json", true);
-includesRequest.send();
+var DIRECTORY_CLASS = "directory";
+var PRETTYPRINT_CLASS = "prettyprint";
+var SQL_PATH = "https://kripken.github.io/sql.js/dist/sql-wasm.js";
+var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
+var LIBRARY_PATH = "https://xibanya.github.io/UnityShaderViewer/Library/";
+var STYLE_PATH = "https://xibanya.github.io/UnityShaderViewer/Styles/Style.css";
+var db = null;
 
-var definitions = null;
-var definitionsRequest = new XMLHttpRequest();
-definitionsRequest.onload = MakeLinks;
-definitionsRequest.onreadystatechange = MakeLinks;
-definitionsRequest.open("GET", "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.json", true);
-definitionsRequest.send();
+AddStyle(STYLE_PATH);
+AddScript(SQL_PATH);
+
+initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${filename}` }).then(function (SQL) {  
+    var dbRequest = new XMLHttpRequest();
+    dbRequest.open('GET', DB_PATH, true);
+    dbRequest.responseType = 'arraybuffer';
+
+    dbRequest.onload = function(e) 
+    {
+        if (db == null)
+        {
+            var uInt8Array = new Uint8Array(this.response);
+            db = new SQL.Database(uInt8Array);
+        }
+        if (db != null)
+        {
+            MakeIncludesDirectory();
+            MakeShaderDirectory();
+            MakeLinks();
+        }
+    };
+        dbRequest.send();
+    });
+
+    function MakeShaderDirectory()
+    {
+        var shaderTable = db.exec("SELECT * FROM Shaders");
+        var nodes = document.getElementsByClassName(DIRECTORY_CLASS);
+        var i;
+        var NAME = 0;
+        var SHADER_PATH = 1;
+        var FILE_PATH = 2;
+        for (i = 0; i < nodes.length; i++) 
+        {
+            table = JSON.parse(JSON.stringify(shaderTable));
+            table[0].values.forEach(row => {
+                if (nodes[i].textContent.includes(row[NAME]))
+                {
+                    var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
+                    var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
+                    console.log(newTag);
+                    findAndReplace(row[NAME], newTag, nodes[i]);
+                }
+            });
+        }
+    }
+    function MakeIncludesDirectory()
+    {
+        var includesTable = db.exec("SELECT * FROM Includes");
+        var nodes = document.getElementsByClassName(PRETTYPRINT_CLASS);
+        var i;
+        var NAME = 1;
+        var FILE_PATH = 2;
+        for (i = 0; i < nodes.length; i++) 
+        {
+            table = JSON.parse(JSON.stringify(includesTable));
+            table[0].values.forEach(row => {
+                if (nodes[i].textContent.includes(row[NAME]))
+                {
+                    var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
+                    var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
+                    findAndReplace(row[NAME], newTag, nodes[i]);
+                }
+            });
+        }
+    }
+    function MakeLinks()
+    {
+        var replaced = [];
+        var nodes = document.getElementsByTagName("span");
+        var i;
+        for (i = 0; i < nodes.length; i++) 
+        {
+            var field = nodes[i].textContent;
+            if (field != null && !replaced.includes(field))
+            {
+                var stmt = db.prepare("SELECT * FROM Definitions WHERE Field=:val");
+                var result = stmt.getAsObject({':val' : field});
+                var jsonResult = JSON.parse(JSON.stringify(result));
+                if (jsonResult.Field != null) 
+                {
+                    stmt = db.prepare("SELECT URL FROM Includes WHERE Name=:val");
+                    var includePath = stmt.getAsObject({':val' : jsonResult.Include});
+                    var includeResult = JSON.parse(JSON.stringify(includePath));
+                    var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include + ".html#" + jsonResult.Field;
+                    var newTag = "<a href=\"" + page + "\">" + jsonResult.Field + "</a>";
+                    findAndReplace(jsonResult.Field, newTag);
+                }
+                stmt.free();
+                replaced.push(field);
+            }
+        }
+    }
+
+// ------------ displaying user-loaded shader ------------//
 var target = getUrlParam(
         'target',
         'Empty'
@@ -52,41 +143,8 @@ function getUrlParam(parameter, defaultvalue){
         }
     return urlparameter;
 }
-var madeLinks;
-function MakeLinks()
-{
-    AddStyle("https://xibanya.github.io/UnityShaderViewer/Styles/Style.css");
-    if (definitions == null && definitionsRequest.readyState == 4 && definitionsRequest.status == 200) 
-    {
-        definitions = JSON.parse(definitionsRequest.responseText);
-    }
-    if (includes == null && includesRequest.readyState == 4 && includesRequest.status == 200) 
-    {
-        includes = JSON.parse(includesRequest.responseText);
-    }
-    if (!madeLinks && definitions != null && includes != null)
-    {
-        definitions.forEach(function(shaderField)
-        {
-            var destination = null;
-            for (i = 0; i < includes.length; i++)
-            {
-                if (includes[i].Name == shaderField.Include)
-                {
-                    destination = includes[i].URL;
-                    break;
-                }
-            }
-            var page = "https://xibanya.github.io/UnityShaderViewer/Library/" + destination + shaderField.Include + ".html";
-            var linkString = page;
-            if (shaderField.Field != shaderField.Include) linkString += "#" + shaderField.Field;
-            var newTag = "<a href=\"" + linkString + "\">" + shaderField.Field + "</a>";
-            findAndReplace(shaderField.Field, newTag, document.getElementById("shader"));
-            madeLinks = true;
-        });
-    }
-}
 
+// ---- UTILS ---- //
 //adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
 function findAndReplace(searchText, replacement, searchNode) 
 {
@@ -136,5 +194,16 @@ function AddStyle(path)
         link.id = "MainStyle"
         link.href = path;
         head.appendChild(link);  
+    }
+}
+function AddScript(path)
+{
+    var existing = document.getElementById("SQLScript");
+    if (existing == null)
+    {
+        var head = document.getElementsByTagName('head')[0];
+        var newScript = document.createElement('script');
+        newScript.src = path;
+        head.appendChild(newScript);  
     }
 }
