@@ -44,7 +44,7 @@ initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${fil
         {
             table = JSON.parse(JSON.stringify(shaderTable));
             table[0].values.forEach(row => {
-                if (nodes[i].textContent.includes(row[NAME]))
+                if (nodes[i].innerText.includes(row[NAME]))
                 {
                     var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
                     var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
@@ -65,7 +65,7 @@ initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${fil
         {
             table = JSON.parse(JSON.stringify(includesTable));
             table[0].values.forEach(row => {
-                if (nodes[i].textContent.includes(row[NAME]))
+                if (nodes[i].innerText.includes(row[NAME]))
                 {
                     var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
                     var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
@@ -207,5 +207,6 @@ function AddScript(path)
         newScript.src = path;
         newScript.id = "SQLScript";
         head.appendChild(newScript);  
+        setTimeout(null, 300); //give this a chance to load before trying to access the DB
     }
 }
