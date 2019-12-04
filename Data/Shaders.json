@@ -1,0 +1,27 @@
+[
+    {
+        "FilePath": "BuiltinShaders/DefaultResources/",
+        "Name": "InternalErrorShader",
+        "ShaderPath": "Hidden"
+    },
+    {
+        "FilePath": "BuiltinShaders/DefaultResources/",
+        "Name": "Text Shader",
+        "ShaderPath": "GUI"
+    },
+    {
+        "FilePath": "BuiltinShaders/DefaultResources/PerformanceTools/",
+        "Name": "FrameDebuggerRenderTargetDisplay",
+        "ShaderPath": "Hidden"
+    },
+    {
+        "FilePath": "BuiltinShaders/DefaultResourcesExtra/Unlit/",
+        "Name": "Transparent",
+        "ShaderPath": "Unlit"
+    },
+    {
+        "FilePath": "BuiltinShaders/DefaultResourcesExtra/",
+        "Name": "Standard",
+        "ShaderPath": null
+    }
+]
