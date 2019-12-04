@@ -20,6 +20,7 @@ initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${fil
         {
             var uInt8Array = new Uint8Array(this.response);
             db = new SQL.Database(uInt8Array);
+            console.log("Loaded DB");
         }
         if (db != null)
         {
@@ -204,6 +205,7 @@ function AddScript(path)
         var head = document.getElementsByTagName('head')[0];
         var newScript = document.createElement('script');
         newScript.src = path;
+        newScript.id = "SQLScript";
         head.appendChild(newScript);  
     }
 }
