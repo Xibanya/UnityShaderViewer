@@ -88,5 +88,10 @@
         "ID": 18,
         "Name": "HLSLSupport",
         "URL": "BuiltinShaders/CGIncludes/"
+    },
+    {
+        "ID": 19,
+        "Name": "UnityStandardCore",
+        "URL": "BuiltinShaders/CGIncludes/"
     }
 ]

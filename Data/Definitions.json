@@ -2749,5 +2749,264 @@
         "Include": "HLSLSupport",
         "Official Comments": null,
         "Overload": null
+    },
+    {
+        "Field": "UnityStandardCore",
+        "ID": 394,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "NormalizePerVertexNormal",
+        "ID": 395,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "NormalizePerPixelNormal",
+        "ID": 396,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "MainLight",
+        "ID": 397,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "AdditiveLight",
+        "ID": 398,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "DummyLight",
+        "ID": 399,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "ZeroIndirect",
+        "ID": 400,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "WorldNormal",
+        "ID": 401,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "ExtractTangentToWorldPerPixel",
+        "ID": 402,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "PerPixelWorldNormal",
+        "ID": 403,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "IN_VIEWDIR4PARALLAX",
+        "ID": 404,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "IN_VIEWDIR4PARALLAX_FWDADD",
+        "ID": 405,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "IN_WORLDPOS",
+        "ID": 406,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "IN_WORLDPOS_FWDADD",
+        "ID": 407,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "IN_LIGHTDIR_FWDADD",
+        "ID": 408,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "FRAGMENT_SETUP",
+        "ID": 409,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "FRAGMENT_SETUP_FWDADD",
+        "ID": 410,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "FragmentCommonData",
+        "ID": 411,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "SpecularSetup",
+        "ID": 412,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "UNITY_SETUP_BRDF_INPUT",
+        "ID": 413,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "RoughnessSetup",
+        "ID": 414,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "MetallicSetup",
+        "ID": 415,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "FragmentSetup",
+        "ID": 416,
+        "Include": "UnityStandardCore",
+        "Official Comments": "parallax transformed texcoord is used to sample occlusion",
+        "Overload": null
+    },
+    {
+        "Field": "FragmentGI",
+        "ID": 417,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "OutputForward",
+        "ID": 418,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "VertexGIForward",
+        "ID": 419,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "VertexOutputForwardBase",
+        "ID": 420,
+        "Include": "UnityStandardCore",
+        "Official Comments": "Base forward pass (directional light, emission, lightmaps, ...)",
+        "Overload": null
+    },
+    {
+        "Field": "vertForwardBase",
+        "ID": 421,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "fragForwardBaseInternal",
+        "ID": 422,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "fragForwardBase",
+        "ID": 423,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "VertexOutputForwardAdd",
+        "ID": 424,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "vertForwardAdd",
+        "ID": 425,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "fragForwardAddInternal",
+        "ID": 426,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "fragForwardAdd",
+        "ID": 427,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "VertexOutputDeferred",
+        "ID": 428,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "vertDeferred",
+        "ID": 429,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
+    },
+    {
+        "Field": "fragDeferred",
+        "ID": 430,
+        "Include": "UnityStandardCore",
+        "Official Comments": null,
+        "Overload": null
     }
 ]
