@@ -5,6 +5,7 @@
 </pre>
 
 <h3>Browse</h3>
+<h5>CGIncludes</h5>
 <pre class="prettyprint linenums">
 HLSLSupport
 TerrainTool
@@ -20,11 +21,30 @@ UnityShaderVariables
 UnityShadowLibrary
 UnityStandardBRDF
 UnityStandardConfig
+UnityStandardCore
 UnityStandardInput
 UnityStandardMeta
 UnityStandardUtils
 </pre>
+  
+<h5>DefaultResources</h5>
+<pre class="prettyprint linenums">
+Font
+Internal-ErrorShader
+Internal-Skinning-Util
+FrameDebuggerRenderTargetDisplay
+</pre>
 
+<h5>DefaultResourcesExtra</h5>
+<pre class="prettyprint linenums">
+Standard
+Unlit-Alpha
+</pre>
+  
+<script>
+initSqlJs({ locateFile: filename => `https://xibanya.github.io/UnityShaderViewer/Scripts/${filename}` })
+</script>
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js"></script>
 <script src="https://xibanya.github.io/UnityShaderViewer/Scripts/run_prettify.js?skin=vscode"></script>
 <script src="https://xibanya.github.io/UnityShaderViewer/Scripts/link_definitions.js"></script>
 </body></html>
