@@ -33,9 +33,9 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
         }
         if (db != null)
         {
-            var includes = db.exec("SELECT * FROM Includes");
+            var includes = db.exec("SELECT * FROM Includes ORDER BY Name ASC");
             GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
-            var shaders = db.exec("SELECT * FROM Shaders");
+            var shaders = db.exec("SELECT * FROM Shaders ORDER BY ShaderPath ASC");
             GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
             MakeLinks();
         }
@@ -130,7 +130,9 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                     stmt = db.prepare("SELECT URL FROM Includes WHERE Name=:val");
                     var includePath = stmt.getAsObject({':val' : jsonResult.Include});
                     var includeResult = JSON.parse(JSON.stringify(includePath));
-                    var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include + ".html#" + jsonResult.Field;
+                    var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include + ".html";
+                    if (jsonResult.Include != jsonResult.Field) page += "#" + jsonResult.Field;
+                    console.log("adding link to " + page);
                     var newTag = "<a href=\"" + page + "\">" + jsonResult.Field + "</a>";
                     findAndReplace(jsonResult.Field, newTag);
                 }
@@ -244,7 +246,6 @@ function AddScript(path, uniqueID)
         var newScript = document.createElement('script');
         newScript.src = path;
         newScript.id = uniqueID;
-        head.appendChild(newScript);  
-        setTimeout(null, 300); //give this a chance to load before trying to access the DB
+        head.appendChild(newScript);
     }
 }
