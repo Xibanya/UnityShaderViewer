@@ -2,7 +2,7 @@ var DIRECTORY_CLASS = "directory";
 var SHADER_DIRECTORY_ID = "shader-directory";
 var INCLUDE_DIRECTORY_ID = "includes-directory";
 var PRETTYPRINT_CLASS = "prettyprint";
-var SQL_PATH = "hhttps://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js";
+var SQL_PATH = "https://kripken.github.io/sql.js/dist/sql-wasm.js";
 var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
 var LIBRARY_PATH = "https://xibanya.github.io/UnityShaderViewer/Library/";
 var STYLE_PATH = "https://xibanya.github.io/UnityShaderViewer/Styles/Style.css";
@@ -11,7 +11,7 @@ var db = null;
 AddStyle(STYLE_PATH);
 AddScript(SQL_PATH);
 
-initSqlJs({ locateFile: filename => `https://xibanya.github.io/UnityShaderViewer/Scripts/${filename}` }).then(function (SQL) {  
+initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${filename}` }).then(function (SQL) {  
     var dbRequest = new XMLHttpRequest();
     dbRequest.open('GET', DB_PATH, true);
     dbRequest.responseType = 'arraybuffer';
