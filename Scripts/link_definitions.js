@@ -1,6 +1,8 @@
 var DIRECTORY_CLASS = "directory";
+var SHADER_DIRECTORY_ID = "shader-directory";
+var INCLUDE_DIRECTORY_ID = "includes-directory";
 var PRETTYPRINT_CLASS = "prettyprint";
-var SQL_PATH = "https://kripken.github.io/sql.js/dist/sql-wasm.js";
+var SQL_PATH = "hhttps://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js";
 var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
 var LIBRARY_PATH = "https://xibanya.github.io/UnityShaderViewer/Library/";
 var STYLE_PATH = "https://xibanya.github.io/UnityShaderViewer/Styles/Style.css";
@@ -9,7 +11,7 @@ var db = null;
 AddStyle(STYLE_PATH);
 AddScript(SQL_PATH);
 
-initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${filename}` }).then(function (SQL) {  
+initSqlJs({ locateFile: filename => `https://xibanya.github.io/UnityShaderViewer/Scripts/${filename}` }).then(function (SQL) {  
     var dbRequest = new XMLHttpRequest();
     dbRequest.open('GET', DB_PATH, true);
     dbRequest.responseType = 'arraybuffer';
@@ -24,14 +26,42 @@ initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${fil
         }
         if (db != null)
         {
-            MakeIncludesDirectory();
-            MakeShaderDirectory();
+            var includes = db.exec("SELECT * FROM Includes");
+            GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
+            var shaders = db.exec("SELECT * FROM Shaders");
+            GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
             MakeLinks();
         }
     };
         dbRequest.send();
     });
-
+   function GenerateDirectory(sqlTable, elementID)
+   {
+       if (sqlTable != null)
+       {
+           var node = document.getElementById(elementID);
+           if (node != null)
+           {
+               var addLinenums = node.classList.contains("linenums")? true : false;
+               var increment = 0;
+               var NAME = 1;
+               var FILE_PATH = 2;
+               var directoryList = addLinenums? "<ol class=\"linenums\">" : "<ul>";
+               table = JSON.parse(JSON.stringify(sqlTable));
+               table[0].values.forEach(row => {
+                       var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
+                       var newTag = "<a href=\"" + page + "\">" + row[NAME] + "</a>";
+                       var listItem = addLinenums?  "<li class=\"" + increment + "\">" : "<li>";
+                       newTag = listItem + newTag + "</li>"
+                       directoryList += newTag;
+                       increment++;
+               }); 
+               directoryList += addLinenums? "</ol>" : "</ul>";
+               node.innerHTML = directoryList;
+           }
+       }
+   }
+    
     function MakeShaderDirectory()
     {
         var shaderTable = db.exec("SELECT * FROM Shaders");
@@ -54,6 +84,7 @@ initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${fil
             });
         }
     }
+    
     function MakeIncludesDirectory()
     {
         var includesTable = db.exec("SELECT * FROM Includes");
