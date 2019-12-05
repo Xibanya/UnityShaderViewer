@@ -18,6 +18,7 @@ var db = null;
 
 AddScript(SQL_PATH + SQL_SCRIPT, SQL_SCRIPT_ID);
 
+window.setTimeout(function() {
 initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (SQL) {  
     var dbRequest = new XMLHttpRequest();
     dbRequest.open('GET', DB_PATH, true);
@@ -29,19 +30,25 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
         {
             var uInt8Array = new Uint8Array(this.response);
             db = new SQL.Database(uInt8Array);
-            console.log("Loaded DB");
         }
-        if (db != null)
-        {
-            var includes = db.exec("SELECT * FROM Includes ORDER BY Name ASC");
-            GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
-            var shaders = db.exec("SELECT * FROM Shaders ORDER BY ShaderPath ASC");
-            GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
-            MakeLinks();
-        }
+        window.setTimeout(function(){
+            if (db != null)
+            {
+                console.log("Loaded DB");
+                var includes = db.exec("SELECT * FROM Includes ORDER BY Name ASC");
+                GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
+                var shaders = db.exec("SELECT * FROM Shaders ORDER BY ShaderPath ASC");
+                GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
+                LinkIncludes();
+                MakeLinks();
+            }
+            else console.log("DB Null");
+        }, 200);
+       
     };
         dbRequest.send();
     });
+}, 200);
 
     //add style after adding the sql script as it's less important
     AddStyle(STYLE_PATH, STYLE_ID);
@@ -101,7 +108,28 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                replaced.push(field);
            }
        }
-   }  
+   }
+    //puts links on known Includes
+    function LinkIncludes()
+    {
+        var includesTable = db.exec("SELECT * FROM Includes");
+        var nodes = document.getElementsByClassName(PRETTYPRINT_CLASS);
+        var i;
+        var NAME = 1;
+        var FILE_PATH = 2;
+        for (i = 0; i < nodes.length; i++) 
+        {
+            table = JSON.parse(JSON.stringify(includesTable));
+            table[0].values.forEach(row => {
+                if (nodes[i].innerText.includes(row[NAME]))
+                {
+                    var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
+                    var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
+                    findAndReplace(row[NAME], newTag, nodes[i]);
+                }
+            });
+        }
+    } 
 
 //adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
 function findAndReplace(searchText, replacement, searchNode) 
@@ -166,5 +194,4 @@ function AddScript(path, uniqueID)
         newScript.id = uniqueID;
         head.appendChild(newScript);
     }
-}   
-   
+} 
