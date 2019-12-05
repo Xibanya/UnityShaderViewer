@@ -1,4 +1,6 @@
-<html><body>
+<html>
+<head><script src="https://kripken.github.io/sql.js/dist/sql-wasm.js" id="SQLScript"></script></head>
+<body>
 <pre class="prettyprint linenums">
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
@@ -25,6 +27,30 @@ float2 <a name="PaintContextUVToHeightmapUV">PaintContextUVToHeightmapUV</a>(flo
 
 #endif  
 </pre>
+<script>
+initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${filename}` }).then(function (SQL) {  
+    var dbRequest = new XMLHttpRequest();
+    dbRequest.open('GET', DB_PATH, true);
+    dbRequest.responseType = 'arraybuffer';
+
+    dbRequest.onload = function(e) 
+    {
+        if (db == null)
+        {
+            var uInt8Array = new Uint8Array(this.response);
+            db = new SQL.Database(uInt8Array);
+            console.log("Loaded DB");
+        }
+        if (db != null)
+        {
+            MakeIncludesDirectory();
+            MakeShaderDirectory();
+            MakeLinks();
+        }
+    };
+        dbRequest.send();
+    });
+</script>
 <script src="https://xibanya.github.io/UnityShaderViewer/Scripts/run_prettify.js?skin=vscode"></script>
 <script src="https://xibanya.github.io/UnityShaderViewer/Scripts/link_definitions.js"></script>
 </body></html>
