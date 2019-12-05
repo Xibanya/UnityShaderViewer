@@ -3,19 +3,19 @@ var SHADER_DIRECTORY_ID = "shader-directory";
 var INCLUDE_DIRECTORY_ID = "includes-directory";
 var PRETTYPRINT_CLASS = "prettyprint";
 
+var SCRIPTS_PATH = "https://xibanya.github.io/UnityShaderViewer/Scripts/";
+
 var STYLE_PATH = "https://xibanya.github.io/UnityShaderViewer/Styles/Style.css";
 var STYLE_ID = "MainStyle";
 
 var LIBRARY_PATH = "https://xibanya.github.io/UnityShaderViewer/Library/";
 
 var SQL_SCRIPT_ID = "SQLScript";
-var SQL_PATH = "https://kripken.github.io/sql.js/dist/";
-var LOCAL_SQL_PATH = "https://xibanya.github.io/UnityShaderViewer/Scripts/";
 var SQL_SCRIPT = "sql-wasm.js";
+var SQL_PATH = "https://kripken.github.io/sql.js/dist/";
 var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
 var db = null;
 
-AddStyle(STYLE_PATH, STYLE_ID);
 AddScript(SQL_PATH + SQL_SCRIPT, SQL_SCRIPT_ID);
 
 initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (SQL) {  
@@ -42,6 +42,11 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
     };
         dbRequest.send();
     });
+
+    //add style after adding the sql script as it's less important
+    AddStyle(STYLE_PATH, STYLE_ID);
+
+    //generate links to members of the provided table within the DOM element of the specified ID
    function GenerateDirectory(sqlTable, elementID)
    {
        if (sqlTable != null)
@@ -68,160 +73,35 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
            }
        }
    }
-    
-    function MakeShaderDirectory()
-    {
-        var shaderTable = db.exec("SELECT * FROM Shaders");
-        var nodes = document.getElementsByClassName(DIRECTORY_CLASS);
-        var i;
-        var NAME = 0;
-        var SHADER_PATH = 1;
-        var FILE_PATH = 2;
-        for (i = 0; i < nodes.length; i++) 
-        {
-            table = JSON.parse(JSON.stringify(shaderTable));
-            table[0].values.forEach(row => {
-                if (nodes[i].innerText.includes(row[NAME]))
-                {
-                    var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
-                    var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
-                    console.log(newTag);
-                    findAndReplace(row[NAME], newTag, nodes[i]);
-                }
-            });
-        }
-    }
-    
-    function MakeIncludesDirectory()
-    {
-        var includesTable = db.exec("SELECT * FROM Includes");
-        var nodes = document.getElementsByClassName(PRETTYPRINT_CLASS);
-        var i;
-        var NAME = 1;
-        var FILE_PATH = 2;
-        for (i = 0; i < nodes.length; i++) 
-        {
-            table = JSON.parse(JSON.stringify(includesTable));
-            table[0].values.forEach(row => {
-                if (nodes[i].innerText.includes(row[NAME]))
-                {
-                    var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
-                    var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
-                    findAndReplace(row[NAME], newTag, nodes[i]);
-                }
-            });
-        }
-    }
-    function MakeLinks()
-    {
-        var replaced = [];
-        var nodes = document.getElementsByTagName("span");
-        var i;
-        for (i = 0; i < nodes.length; i++) 
-        {
-            var field = nodes[i].textContent;
-            if (field != null && !replaced.includes(field))
-            {
-                var stmt = db.prepare("SELECT * FROM Definitions WHERE Field=:val");
-                var result = stmt.getAsObject({':val' : field});
-                var jsonResult = JSON.parse(JSON.stringify(result));
-                if (jsonResult.Field != null) 
-                {
-                    stmt = db.prepare("SELECT URL FROM Includes WHERE Name=:val");
-                    var includePath = stmt.getAsObject({':val' : jsonResult.Include});
-                    var includeResult = JSON.parse(JSON.stringify(includePath));
-                    var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include + ".html";
-                    if (jsonResult.Include != jsonResult.Field) page += "#" + jsonResult.Field;
-                    console.log("adding link to " + page);
-                    var newTag = "<a href=\"" + page + "\">" + jsonResult.Field + "</a>";
-                    findAndReplace(jsonResult.Field, newTag);
-                }
-                stmt.free();
-                replaced.push(field);
-            }
-        }
-    }
-
-// ------------ displaying user-loaded shader ------------//
-var target = getUrlParam(
-        'target',
-        'Empty'
-);
-if (target != null && target != "Empty")
-{
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() 
-    {
-        if (request.readyState == 4 && request.status == 200) 
-        {
-            document.getElementById("shader").innerHTML = request.responseText;
-            document.getElementById("shader").className = "prettyprint";
-            PR.prettyPrint();
-            MakeLinks();
-        }
-    };
-    request.open("GET", target, true);
-    request.responseType = 'text';
-    request.send();
-}
-function LoadShader()
-{
-    var target = document.getElementById("shader_url").value;
-    var destination = "https://xibanya.github.io/UnityShaderViewer/Tools/Viewer.html?target=" + target;
-    self.location.replace(destination);
-}
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
-function getUrlParam(parameter, defaultvalue){
-    var urlparameter = defaultvalue;
-    if(window.location.href.indexOf(parameter) > -1){
-        urlparameter = getUrlVars()[parameter];
-        }
-    return urlparameter;
-}
-
-// ---- UTILS ---- //
-//adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
-function findAndReplace(searchText, replacement, searchNode) 
-{
-    if (!searchText || typeof replacement === 'undefined') {
-        // Throw error here if you want...
-        return;
-    }
-    var regex = typeof searchText === 'string' ?
-                new RegExp(`\\b${searchText}\\b`, 'g') : searchText,
-        childNodes = (searchNode || document.body).childNodes,
-        cnLength = childNodes.length,
-        excludes = 'html,head,style,title,link,meta,script,object,iframe';
-    while (cnLength--) {
-        var currentNode = childNodes[cnLength];
-        if (currentNode.nodeType === 1 &&
-            (excludes + ',').indexOf(currentNode.nodeName.toLowerCase() + ',') === -1) {
-            arguments.callee(searchText, replacement, currentNode);
-        }
-        if (currentNode.nodeType !== 3 || !regex.test(currentNode.data) ) {
-            continue;
-        }
-        var parent = currentNode.parentNode,
-            frag = (function(){
-                var html = currentNode.data.replace(regex, replacement),
-                    wrap = document.createElement('div'),
-                    frag = document.createDocumentFragment();
-                wrap.innerHTML = html;
-                while (wrap.firstChild) {
-                    frag.appendChild(wrap.firstChild);
-                }
-                return frag;
-            })();
-        parent.insertBefore(frag, currentNode);
-        parent.removeChild(currentNode);
-    }
-};
+   function MakeLinks()
+   {
+       var replaced = [];
+       var nodes = document.getElementsByTagName("span");
+       var i;
+       for (i = 0; i < nodes.length; i++) 
+       {
+           var field = nodes[i].textContent;
+           if (field != null && !replaced.includes(field))
+           {
+               var stmt = db.prepare("SELECT * FROM Definitions WHERE Field=:val");
+               var result = stmt.getAsObject({':val' : field});
+               var jsonResult = JSON.parse(JSON.stringify(result));
+               if (jsonResult.Field != null) 
+               {
+                   stmt = db.prepare("SELECT URL FROM Includes WHERE Name=:val");
+                   var includePath = stmt.getAsObject({':val' : jsonResult.Include});
+                   var includeResult = JSON.parse(JSON.stringify(includePath));
+                   var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include + ".html";
+                   if (jsonResult.Include != jsonResult.Field) page += "#" + jsonResult.Field;
+                   console.log("adding link to " + page);
+                   var newTag = "<a href=\"" + page + "\">" + jsonResult.Field + "</a>";
+                   findAndReplace(jsonResult.Field, newTag);
+               }
+               stmt.free();
+               replaced.push(field);
+           }
+       }
+   }  
 
 function AddStyle(path, uniqueID)
 {
@@ -237,6 +117,7 @@ function AddStyle(path, uniqueID)
         head.appendChild(link);  
     }
 }
+
 function AddScript(path, uniqueID)
 {
     var existing = document.getElementById(uniqueID);
