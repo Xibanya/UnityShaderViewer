@@ -2,16 +2,23 @@ var DIRECTORY_CLASS = "directory";
 var SHADER_DIRECTORY_ID = "shader-directory";
 var INCLUDE_DIRECTORY_ID = "includes-directory";
 var PRETTYPRINT_CLASS = "prettyprint";
-var SQL_PATH = "https://kripken.github.io/sql.js/dist/sql-wasm.js";
-var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
-var LIBRARY_PATH = "https://xibanya.github.io/UnityShaderViewer/Library/";
+
 var STYLE_PATH = "https://xibanya.github.io/UnityShaderViewer/Styles/Style.css";
+var STYLE_ID = "MainStyle";
+
+var LIBRARY_PATH = "https://xibanya.github.io/UnityShaderViewer/Library/";
+
+var SQL_SCRIPT_ID = "SQLScript";
+var SQL_PATH = "https://kripken.github.io/sql.js/dist/";
+var LOCAL_SQL_PATH = "https://xibanya.github.io/UnityShaderViewer/Scripts/";
+var SQL_SCRIPT = "sql-wasm.js";
+var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
 var db = null;
 
-AddStyle(STYLE_PATH);
-AddScript(SQL_PATH);
+AddStyle(STYLE_PATH, STYLE_ID);
+AddScript(SQL_PATH + SQL_SCRIPT, SQL_SCRIPT_ID);
 
-initSqlJs({ locateFile: filename => `https://kripken.github.io/sql.js/dist/${filename}` }).then(function (SQL) {  
+initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (SQL) {  
     var dbRequest = new XMLHttpRequest();
     dbRequest.open('GET', DB_PATH, true);
     dbRequest.responseType = 'arraybuffer';
@@ -214,29 +221,29 @@ function findAndReplace(searchText, replacement, searchNode)
     }
 };
 
-function AddStyle(path)
+function AddStyle(path, uniqueID)
 {
-    var existing = document.getElementById("MainStyle");
+    var existing = document.getElementById(uniqueID);
     if (existing == null)
     {
         var head = document.getElementsByTagName('head')[0];
         var link = document.createElement('link');
         link.rel = 'stylesheet';  
         link.type = 'text/css'; 
-        link.id = "MainStyle"
+        link.id = uniqueID;
         link.href = path;
         head.appendChild(link);  
     }
 }
-function AddScript(path)
+function AddScript(path, uniqueID)
 {
-    var existing = document.getElementById("SQLScript");
+    var existing = document.getElementById(uniqueID);
     if (existing == null)
     {
         var head = document.getElementsByTagName('head')[0];
         var newScript = document.createElement('script');
         newScript.src = path;
-        newScript.id = "SQLScript";
+        newScript.id = uniqueID;
         head.appendChild(newScript);  
         setTimeout(null, 300); //give this a chance to load before trying to access the DB
     }
