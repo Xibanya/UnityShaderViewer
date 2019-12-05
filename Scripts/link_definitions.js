@@ -113,19 +113,21 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
     function LinkIncludes()
     {
         var includesTable = db.exec("SELECT * FROM Includes");
-        var nodes = document.getElementsByClassName(PRETTYPRINT_CLASS);
+        var nodes = document.getElementsByClassName("str");
         var i;
         var NAME = 1;
         var FILE_PATH = 2;
+        var EXTENSION = 3;
         for (i = 0; i < nodes.length; i++) 
         {
             table = JSON.parse(JSON.stringify(includesTable));
             table[0].values.forEach(row => {
-                if (nodes[i].innerText.includes(row[NAME]))
+                var displayName = row[NAME] + row[EXTENSION];
+                if (nodes[i].innerText.includes(displayName))
                 {
                     var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
-                    var newTag = "<a href=\"" + page + "\">" + row[NAME]+ "</a>";
-                    findAndReplace(row[NAME], newTag, nodes[i]);
+                    var newTag = "<a href=\"" + page + "\">" + displayName + "</a>";
+                    findAndReplace(displayName, newTag, nodes[i]);
                 }
             });
         }
