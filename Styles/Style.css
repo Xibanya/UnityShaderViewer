@@ -23,6 +23,11 @@ body
   background-color: var(--bgColor);
   font-family: 'Montserrat', sans-serif;
 }
+h1,h2,h3,h4,h5,h6
+{
+    padding-left: 1em;
+    margin-bottom: 0px;
+}
 a 
 {
     font-weight: bold;
@@ -38,6 +43,20 @@ a:hover
 {
     text-decoration: underline;
 }
+.directory .linenums 
+{
+    margin-top: 0px;
+}
+.directory a 
+{
+   color: var(--type);
+   font-size: 18.4px;
+}
+.directory > ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.directory,
 code.prettyprint,
 pre.prettyprint
 { 
@@ -57,3 +76,6 @@ pre .nocode
     font-family: 'Montserrat', sans-serif;
     color: var(--fgColor); 
 }
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE } /* IE indents via margin-left */
+li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: decimal !important; }
