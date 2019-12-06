@@ -9,6 +9,9 @@ var SHADERS_TABLE = "Shaders";
 var FILE_NAME = 1;
 var FILE_PATH = 2;
 var EXTENSION = 3;
+var VERSION = "2019.1.6f1";
+var isSource = false;
+var sourceName = null;
 
 var SCRIPTS_PATH = "https://xibanya.github.io/UnityShaderViewer/Scripts/";
 
@@ -46,6 +49,7 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                 LinkIncludes();
                 MakeLinks();
                 AddStyle(STYLE_PATH, STYLE_ID);
+                AddFooter();
             }
             else console.log("DB Null");
         }, 200);
@@ -119,7 +123,16 @@ function GenerateDirectory(sqlTable, elementID)
                     var listItem = ListItem(directoryList, increment);
                     var link = DirectoryLink(row);
                     listItem.appendChild(link);
-                    if (elementID.includes("shader")) listItem.innerHTML += " " + row[0];
+                    if (elementID.includes("shader")) 
+                    {
+                        if (window.location.href.includes(row[FILE_PATH] + row[FILE_NAME])) 
+                        {
+                            isSource = true;
+                            sourceName = row[0];
+                            SetTitle(row[0]);
+                        }
+                        listItem.innerHTML += " " + row[0];
+                    }
                     else if (elementID.includes("includes")) listItem.innerHTML += row[EXTENSION];
                     increment++;
             });
@@ -190,6 +203,12 @@ function LinkIncludes()
         table = JSON.parse(JSON.stringify(includesTable));
         table[0].values.forEach(row => {
             var displayName = row[FILE_NAME] + row[EXTENSION];
+            if (window.location.href.includes(row[FILE_PATH] + row[FILE_NAME])) 
+            {
+                isSource = true;
+                sourceName = displayName;
+                SetTitle(displayName);
+            }
             if (nodes[i].innerText.includes(displayName))
             {
                 var page = LIBRARY_PATH + row[FILE_PATH] + row[FILE_NAME];
@@ -199,6 +218,53 @@ function LinkIncludes()
         });
     }
 } 
+function SetTitle(titleText)
+{
+    var title = document.getElementsByTagName('title')[0];
+    if (title == null)
+    {
+        var head = document.getElementsByTagName('head')[0];
+        title = document.createElement('title');
+        head.appendChild(title);
+    }
+    title.innerText = titleText;
+}
+function AddFooter()
+{
+    var footer = document.createElement("footer");
+    var body = document.getElementsByTagName('body')[0];
+    body.appendChild(footer);
+    if (isSource)
+    {
+        footer.classList = "source";
+        var sourceText = document.createElement('span');
+        sourceText.classList = "source";
+        footer.appendChild(sourceText);
+        sourceText.innerHTML += `${sourceName} ` +
+        `<a href="https://unity3d.com/get-unity/download/archive">v.${VERSION}</a>`;
+    }
+    else SetTitle("Shader Viewer Directory");
+
+    var footerText = document.createElement('span');
+    footer.appendChild(footerText);
+    var indexLink = `<a href="https://xibanya.github.io/UnityShaderViewer/"><i class="fa fa-home"></i></a>`;
+    footerText.innerHTML += indexLink;
+    
+    var repoLink = `<a href="https://github.com/Xibanya/UnityShaderViewer"><i class="fa fa-github"></i></a>`;
+    var tLink = `<a href="https://twitter.com/ManuelaXibanya"><i class="fa fa-twitter"></i></a>`;
+    var pLink = `<a href="https://www.patreon.com/teamdogpit"><i class="fa fab fa-patreon"></i></a>`;
+    var links = `${repoLink} ${tLink} ${pLink}`;
+    if (isSource)
+    {
+        var linkText = document.createElement('span');
+        linkText.classList = "links";
+        footer.appendChild(linkText);
+        linkText.innerHTML = links;
+    }
+    else footerText.innerHTML += ` ${links}`;
+   
+    console.log("added footer");
+}
 
 //adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
 function findAndReplace(searchText, replacement, searchNode) 
@@ -284,7 +350,7 @@ function HeaderAfter(size, title, referenceNode)
 }
 function DirectoryAfter(uniqueID, referenceNode)
 {
-    var directory = document.createElement('pre');
+    var directory = document.createElement('div');
     directory.id = uniqueID;
     directory.className = DIRECTORY_CLASS;
     InsertAfter(directory, referenceNode);
