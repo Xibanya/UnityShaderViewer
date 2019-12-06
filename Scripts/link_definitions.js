@@ -188,10 +188,10 @@ function MakeLinks()
                 stmt = db.prepare(`SELECT URL FROM ${INCLUDES_TABLE} WHERE Name=:val`);
                 var includePath = stmt.getAsObject({':val' : jsonResult.Include});
                 var includeResult = JSON.parse(JSON.stringify(includePath));
-                var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include
+                var page = LIBRARY_PATH + includeResult.URL + jsonResult.Include + ".html"
                 if (jsonResult.Include != jsonResult.Field) page += "#" + jsonResult.Field;
                 VerboseLog(`Creating link to ${page}`);
-                var newTag = `<a href=\"${page}\".html>${jsonResult.Field}</a>`;
+                var newTag = `<a href="${page}">${jsonResult.Field}</a>`;
                 findAndReplace(jsonResult.Field, newTag);
             }
             stmt.free();
@@ -223,6 +223,7 @@ function FindIfSource()
     var fileName = location.href.split("/").slice(-1) + '';
     var arr = fileName.split(".");
     fileName = arr[0];
+    if (fileName.includes("#")) fileName = fileName.split("#")[0];
     VerboseLog("file name " + fileName);
 
     //check if this is an include
