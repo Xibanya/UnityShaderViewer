@@ -224,17 +224,37 @@ function FindIfSource()
     var arr = fileName.split(".");
     fileName = arr[0];
     VerboseLog("file name " + fileName);
+
+    //check if this is an include
     var stmt = db.prepare(`SELECT * FROM ${INCLUDES_TABLE} WHERE Name=:val`);
     var result = stmt.getAsObject({':val' : fileName});
     var jsonResult = JSON.parse(JSON.stringify(result));
     stmt.free();
-    VerboseLog(jsonResult);
     if (jsonResult != null && jsonResult.Name != null)
     {
+        VerboseLog(jsonResult);
         isSource = true;
         sourceName = jsonResult.Name + jsonResult.Extension;
         SetTitle(jsonResult.Name);
     }
+
+    //check if this is a shader
+    if (!isSource)
+    {
+        var shQ = db.prepare(`SELECT * FROM ${SHADERS_TABLE} WHERE FileName=:val`);
+        var r = shQ.getAsObject({':val' : fileName});
+        var shResult = JSON.parse(JSON.stringify(r));
+        shQ.free();
+         
+        if (shResult != null && shResult.FileName != null)
+        {
+            VerboseLog(shResult);
+            isSource = true;
+            sourceName = shResult.ShaderName;
+            SetTitle(shResult.FileName);
+        }
+    }
+
     AddFooter();
 }
 function SetTitle(titleText)
