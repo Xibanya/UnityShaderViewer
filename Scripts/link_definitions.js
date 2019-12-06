@@ -55,6 +55,7 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                 ShaderDirectory();
                 LinkIncludes();
                 MakeLinks();
+                FindIfSource();
             }
             else console.log("DB Null");
         }, 200);
@@ -203,18 +204,11 @@ function LinkIncludes()
 {
     var includesTable = db.exec(`SELECT * FROM ${INCLUDES_TABLE}`);
     var nodes = document.getElementsByClassName("str");
-    if (nodes == null || nodes.length == 0) FindIfSource();
     for (var i = 0; i < nodes.length; i++) 
     {
         table = JSON.parse(JSON.stringify(includesTable));
         table[0].values.forEach(row => {
             var displayName = row[FILE_NAME] + row[EXTENSION];
-            if (window.location.href.includes(row[FILE_PATH] + row[FILE_NAME])) 
-            {
-                isSource = true;
-                sourceName = displayName;
-                SetTitle(displayName);
-            }
             if (nodes[i].innerText.includes(displayName))
             {
                 var page = LIBRARY_PATH + row[FILE_PATH] + row[FILE_NAME];
@@ -239,6 +233,7 @@ function FindIfSource()
     {
         isSource = true;
         sourceName = jsonResult.Name;
+        SetTitle(sourceName);
     }
     AddFooter();
 }
