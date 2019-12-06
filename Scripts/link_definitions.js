@@ -223,17 +223,17 @@ function FindIfSource()
     var fileName = location.href.split("/").slice(-1) + '';
     var arr = fileName.split(".");
     fileName = arr[0];
-    console.log("file name " + fileName);
+    VerboseLog("file name " + fileName);
     var stmt = db.prepare(`SELECT * FROM ${INCLUDES_TABLE} WHERE Name=:val`);
     var result = stmt.getAsObject({':val' : fileName});
     var jsonResult = JSON.parse(JSON.stringify(result));
     stmt.free();
-    console.log(jsonResult);
+    VerboseLog(jsonResult);
     if (jsonResult != null && jsonResult.Name != null)
     {
         isSource = true;
-        sourceName = jsonResult.Name;
-        SetTitle(sourceName);
+        sourceName = jsonResult.Name + jsonResult.Extension;
+        SetTitle(jsonResult.Name);
     }
     AddFooter();
 }
