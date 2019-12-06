@@ -97,7 +97,7 @@ footer
     padding-top: 0.5em;
     color: var(--fgColor);
 }
-footer > p
+footer > span
 {
     margin-block-end: 0px;
     margin-block-start: 0px;
@@ -105,20 +105,44 @@ footer > p
     margin:0px;
     font-family: var(--monospace);
 }
+footer > span.source 
+{
+    display: block;
+    position: fixed;
+    text-align: left;
+    padding-left: 2em;
+}
+footer > span.links 
+{
+    position: fixed;
+    right: 0;
+    text-align: right;
+    padding-right: 2em;
+}
 footer a { color: inherit; }
 footer a:hover { color: var(--directive); }
+footer .fa {
+   margin-left:8px; 
+}
 @font-face 
 {
     font-family: 'FontAwesome';
-    src: url('fontawesome-webfont.eot?v=4.7.0');
-    src: url('fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), 
-    url('fontawesome-webfont.woff2?v=4.7.0') format('woff2'), 
-    url('fontawesome-webfont.woff?v=4.7.0') format('woff'), 
-    url('fontawesome-webfont.ttf?v=4.7.0') format('truetype'), 
-    url('fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+    src: url('Fonts/fontawesome-webfont.eot?v=4.7.0');
+    src: url('Fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), 
+    url('Fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), 
+    url('Fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), 
+    url('Fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), 
+    url('Fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Brands';
+    font-style: normal;
+    font-weight: normal;
+    font-display: auto;
+    src: url("Fonts/fa-brands-400.eot");
+    src: url("Fonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("Fonts/fa-brands-400.woff2") format("woff2"), url("Fonts/fa-brands-400.woff") format("woff"), url("Fonts/fa-brands-400.ttf") format("truetype"), url("Fonts/fa-brands-400.svg#fontawesome") format("svg"); }
 .fa 
 {
   display: inline-block;
@@ -128,5 +152,8 @@ footer a:hover { color: var(--directive); }
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.fab { font-family: 'Brands'; }
 .fa-twitter:before { content: "\f099"; }
 .fa-github:before { content: "\f09b"; }
+.fa-home:before { content: "\f015"; }
+.fa-patreon:before { content: "\f3d9"; }
