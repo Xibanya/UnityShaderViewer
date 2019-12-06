@@ -1,5 +1,6 @@
-<html>
-<head><script src="https://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js" id="SQLScript"></script></head>
+<html><head>
+<link rel="stylesheet" type="text/css" id="MainStyle" href="https://xibanya.github.io/UnityShaderViewer/Styles/Style.css">
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js" id="SQLScript"></script></head>
 <body><pre class="prettyprint linenums">
  // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
@@ -150,14 +151,14 @@ inline UnityGI <a name="UnityGI_Base">UnityGI_Base</a>(UnityGIInput data, half o
 }
 
 
-inline half3<a name="UnityGI_IndirectSpecular">UnityGI_IndirectSpecular</a>(UnityGIInput data, half occlusion, Unity_GlossyEnvironmentData glossIn)
+inline half3 <a name="UnityGI_IndirectSpecular">UnityGI_IndirectSpecular</a>(UnityGIInput data, half occlusion, Unity_GlossyEnvironmentData glossIn)
 {
     half3 specular;
 
     #ifdef UNITY_SPECCUBE_BOX_PROJECTION
         // we will tweak reflUVW in glossIn directly (as we pass it to Unity_GlossyEnvironment twice for probe0 and probe1), so keep original to pass into BoxProjectedCubemapDirection
-        half3 originalReflUVW = <a href="UnityImageBasedLighting.html#Unity_GlossyEnvironmentData.reflUVW">glossIn.reflUVW</a>;
-        <a href="UnityImageBasedLighting.html#Unity_GlossyEnvironmentData.reflUVW">glossIn.reflUVW</a> = BoxProjectedCubemapDirection (originalReflUVW, data.worldPos, data.probePosition[0], data.boxMin[0], data.boxMax[0]);
+        half3 originalReflUVW = glossIn.reflUVW;
+        glossIn.reflUVW = BoxProjectedCubemapDirection (originalReflUVW, data.worldPos, data.probePosition[0], data.boxMin[0], data.boxMax[0]);
     #endif
 
     #ifdef _GLOSSYREFLECTIONS_OFF
