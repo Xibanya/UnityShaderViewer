@@ -13,7 +13,7 @@ https://xibanya.github.io/UnityShaderViewer
     --keyword: #569cd6;
     --type: #9cdcfe;
     --number: #b5cea8;
-    --footer-height: 36px;
+    --footer-height: 34px;
     --footer-bg-color: rgb(60, 60, 60);
     --monospace: 'Inconsolata', monospace;
 }
@@ -24,6 +24,11 @@ body
   color: var(--fgColor); 
   background-color: var(--bgColor);
   font-family: 'Montserrat', sans-serif;
+}
+div.space 
+{
+    display: block;
+    height: var(--footer-height);
 }
 
 /* Headers */
@@ -122,7 +127,7 @@ footer > span.links
 footer a { color: inherit; }
 footer a:hover { color: var(--directive); }
 footer .fa {
-   margin-left:8px; 
+   margin-left:1em; 
 }
 @font-face 
 {
