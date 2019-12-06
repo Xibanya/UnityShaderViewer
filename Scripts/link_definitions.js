@@ -231,8 +231,11 @@ function SetTitle(titleText)
 }
 function AddFooter()
 {
-    var footer = document.createElement("footer");
     var body = document.getElementsByTagName('body')[0];
+    var space = document.createElement('div');
+    body.appendChild(space);
+    space.classList = "space";
+    var footer = document.createElement('footer');
     body.appendChild(footer);
     if (isSource)
     {
@@ -262,8 +265,6 @@ function AddFooter()
         linkText.innerHTML = links;
     }
     else footerText.innerHTML += ` ${links}`;
-   
-    console.log("added footer");
 }
 
 //adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
