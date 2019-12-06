@@ -1,7 +1,6 @@
 /* 
-Theme Name: Shader Code
-Author: Xibanya
-URL: https://xibanya.github.io/UnityShaderViewer
+Unity Shader Viewer theme by Xibanya
+https://xibanya.github.io/UnityShaderViewer
 */
 :root 
 {
@@ -14,20 +13,29 @@ URL: https://xibanya.github.io/UnityShaderViewer
     --keyword: #569cd6;
     --type: #9cdcfe;
     --number: #b5cea8;
+    --footer-height: 36px;
+    --footer-bg-color: rgb(60, 60, 60);
+    --monospace: 'Inconsolata', monospace;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap');
 body 
 { 
-  color: var(--directive);
+  color: var(--fgColor); 
   background-color: var(--bgColor);
   font-family: 'Montserrat', sans-serif;
 }
-h1,h2,h3,h4,h5,h6
-{
-    padding-left: 1em;
-    margin-bottom: 0px;
+
+/* Headers */
+h1,h2,h3,h4,h5,h6 
+{ 
+    color: var(--directive);
+    margin-bottom: 0px; 
 }
+h1,h2 { padding-left: 0; }
+h3,h4,h5,h6 { padding-left: 1em; }
+
+/* Links */
 a 
 {
     font-weight: bold;
@@ -35,18 +43,11 @@ a
     -moz-transition: all .3s;
     transition: all .3s;
 }
-a:link 
-{
-    text-decoration: none;
-}
-a:hover 
-{
-    text-decoration: underline;
-}
-.directory .linenums 
-{
-    margin-top: 0px;
-}
+a:link { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Directory and Prettyprint Blocks */
+.directory .linenums { margin-top: 0px; }
 .directory a 
 {
    color: var(--type);
@@ -76,6 +77,56 @@ pre .nocode
     font-family: 'Montserrat', sans-serif;
     color: var(--fgColor); 
 }
-/* Specify class=linenums on a pre to get line numbering */
-ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE } /* IE indents via margin-left */
+ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE }
 li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: decimal !important; }
+
+/* Footer */
+footer 
+{
+    display: block;
+    position: fixed;
+    box-sizing: border-box;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    height: var(--footer-height);
+    background-color: var(--footer-bg-color);
+    padding-top: 0.5em;
+    color: var(--fgColor);
+}
+footer > p
+{
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    padding:0px;
+    margin:0px;
+    font-family: var(--monospace);
+}
+footer a { color: inherit; }
+footer a:hover { color: var(--directive); }
+@font-face 
+{
+    font-family: 'FontAwesome';
+    src: url('fontawesome-webfont.eot?v=4.7.0');
+    src: url('fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), 
+    url('fontawesome-webfont.woff2?v=4.7.0') format('woff2'), 
+    url('fontawesome-webfont.woff?v=4.7.0') format('woff'), 
+    url('fontawesome-webfont.ttf?v=4.7.0') format('truetype'), 
+    url('fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.fa 
+{
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fa-twitter:before { content: "\f099"; }
+.fa-github:before { content: "\f09b"; }
