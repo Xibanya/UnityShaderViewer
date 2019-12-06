@@ -2,6 +2,8 @@ var DIRECTORY_CLASS = "directory";
 var SHADER_DIRECTORY_ID = "shader-directory";
 var INCLUDE_DIRECTORY_ID = "includes-directory";
 var PRETTYPRINT_CLASS = "prettyprint";
+var FILE_NAME = 1;
+var FILE_PATH = 2;
 
 var SCRIPTS_PATH = "https://xibanya.github.io/UnityShaderViewer/Scripts/";
 
@@ -23,7 +25,6 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
     var dbRequest = new XMLHttpRequest();
     dbRequest.open('GET', DB_PATH, true);
     dbRequest.responseType = 'arraybuffer';
-
     dbRequest.onload = function(e) 
     {
         if (db == null)
@@ -35,23 +36,65 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
             if (db != null)
             {
                 console.log("Loaded DB");
-                var includes = db.exec("SELECT * FROM Includes ORDER BY Name ASC");
-                GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
-                var shaders = db.exec("SELECT * FROM Shaders ORDER BY ShaderPath ASC");
-                GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
+                IncludesDirectory();
+                ShaderDirectory();
                 LinkIncludes();
                 MakeLinks();
+                AddStyle(STYLE_PATH, STYLE_ID);
             }
             else console.log("DB Null");
         }, 200);
-       
     };
         dbRequest.send();
     });
 }, 200);
+   
+function IncludesDirectory()
+{
+    var directory = document.getElementById(INCLUDE_DIRECTORY_ID);
+    if (directory != null)
+    {
+        var header = HeaderBefore(3, "CGIncludes", directory);
 
-    //add style after adding the sql script as it's less important
-    AddStyle(STYLE_PATH, STYLE_ID);
+        var includes = db.exec(
+            "SELECT * FROM Includes WHERE URL IS" +
+            "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
+        GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
+
+        var otherHeader = HeaderAfter(3, "DefaultResources", directory);
+      
+        var otherDirectoryID = "other-includes-directory";
+        DirectoryAfter(otherDirectoryID, otherHeader);
+
+        var otherIncludes = db.exec(
+            "SELECT * FROM Includes WHERE URL IS NOT " + 
+            "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
+        GenerateDirectory(otherIncludes, otherDirectoryID);
+    }
+}
+function ShaderDirectory()
+{
+    var directory = document.getElementById(SHADER_DIRECTORY_ID);
+    if (directory != null)
+    {
+        var header = HeaderBefore(3, "Default Resources", directory);
+
+        var shaders = db.exec(
+            "SELECT * FROM Shaders WHERE FilePath Like " + 
+            "'BuiltinShaders/DefaultResources/%' ORDER BY FilePath, FileName ASC");
+            GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
+        
+        var otherHeader = HeaderAfter(3, "Default Resources Extra", directory);
+       
+        var otherDirectoryID = "other-shaders-directory";
+        DirectoryAfter(otherDirectoryID, otherHeader);
+       
+        var otherShaders = db.exec(
+            "SELECT * FROM Shaders WHERE FilePath NOT Like " + 
+            "'BuiltinShaders/DefaultResources/%' ORDER BY FilePath, FileName ASC");
+            GenerateDirectory(otherShaders, otherDirectoryID);
+    }
+}
 
     //generate links to members of the provided table within the DOM element of the specified ID
    function GenerateDirectory(sqlTable, elementID)
@@ -65,21 +108,44 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                var increment = 0;
                var NAME = 1;
                var FILE_PATH = 2;
-               var directoryList = addLinenums? "<ol class=\"linenums\">" : "<ul>";
+               var directoryList = DirectoryList(addLinenums);
                table = JSON.parse(JSON.stringify(sqlTable));
                table[0].values.forEach(row => {
-                       var page = LIBRARY_PATH + row[FILE_PATH] + row[NAME] + ".html";
-                       var newTag = "<a href=\"" + page + "\">" + row[NAME] + "</a>";
-                       var listItem = addLinenums?  "<li class=\"" + increment + "\">" : "<li>";
-                       newTag = listItem + newTag + "</li>"
-                       directoryList += newTag;
+                       var listItem = ListItem(directoryList, increment);
+                       var link = DirectoryLink(row);
+                       listItem.appendChild(link);
+                       if (elementID.includes("shader")) listItem.innerHTML += " " + row[0];
+                       else if (elementID.includes("includes")) listItem.innerHTML += " " + row[3];
                        increment++;
-               }); 
-               directoryList += addLinenums? "</ol>" : "</ul>";
-               node.innerHTML = directoryList;
+               });
+               node.appendChild(directoryList);
            }
        }
    }
+function DirectoryLink(row)
+{
+    var link = document.createElement('a');
+    link.href = LIBRARY_PATH + row[FILE_PATH] + row[FILE_NAME] + ".html";
+    link.innerText = row[FILE_NAME];
+    return link;
+}
+function DirectoryList(addLinenums)
+{
+    var listContainer = document.createElement(addLinenums? 'ol' : 'ul');
+    if (addLinenums) listContainer.className = "linenums";
+    return listContainer;
+}
+function ListItem(parentNode, increment)
+{
+    var listItem = document.createElement('li');
+    parentNode.appendChild(listItem);
+    if (parentNode.classList.contains("linenums"))
+    {
+        listItem.className = `${increment}`;
+    }
+    return listItem
+}
+
    function MakeLinks()
    {
        var replaced = [];
@@ -196,4 +262,30 @@ function AddScript(path, uniqueID)
         newScript.id = uniqueID;
         head.appendChild(newScript);
     }
-} 
+}
+function InsertAfter(newNode, referenceNode) 
+{
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+function HeaderBefore(size, title, referenceNode)
+{
+    var header = document.createElement('h' + size);
+    header.innerText = title
+    referenceNode.parentNode.insertBefore(header, referenceNode);
+    return header;
+}
+function HeaderAfter(size, title, referenceNode)
+{
+    var header = document.createElement('h' + size);
+    header.innerText = title
+    InsertAfter(header, referenceNode);
+    return header;
+}
+function DirectoryAfter(uniqueID, referenceNode)
+{
+    var directory = document.createElement('pre');
+    directory.id = uniqueID;
+    directory.className = DIRECTORY_CLASS;
+    InsertAfter(directory, referenceNode);
+    return directory;
+}
