@@ -40,6 +40,7 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
             var uInt8Array = new Uint8Array(this.response);
             db = new SQL.Database(uInt8Array);
         }
+        AddStyle(STYLE_PATH, STYLE_ID);
         window.setTimeout(function(){
             if (db != null)
             {
@@ -48,7 +49,6 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                 ShaderDirectory();
                 LinkIncludes();
                 MakeLinks();
-                AddStyle(STYLE_PATH, STYLE_ID);
                 AddFooter();
             }
             else console.log("DB Null");
