@@ -26,6 +26,12 @@ var SQL_PATH = "https://kripken.github.io/sql.js/dist/";
 var DB_PATH = "https://xibanya.github.io/UnityShaderViewer/Data/Definitions.db";
 var db = null;
 
+var URL_INDEX = `<a href="https://xibanya.github.io/UnityShaderViewer/"><i class="fa fa-home"></i></a>`;
+var URL_REPO = `<a href="https://github.com/Xibanya/UnityShaderViewer"><i class="fa fa-github"></i></a>`;
+var URL_T = `<a href="https://twitter.com/ManuelaXibanya"><i class="fa fa-twitter"></i></a>`;
+var URL_P = `<a href="https://www.patreon.com/teamdogpit"><i class="fa fab fa-patreon"></i></a>`;
+var EXTERNAL_LINKS = `${URL_REPO} ${URL_T} ${URL_P}`;
+
 AddScript(SQL_PATH + SQL_SCRIPT, SQL_SCRIPT_ID);
 
 window.setTimeout(function() {
@@ -49,7 +55,6 @@ initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (S
                 ShaderDirectory();
                 LinkIncludes();
                 MakeLinks();
-                AddFooter();
             }
             else console.log("DB Null");
         }, 200);
@@ -198,6 +203,7 @@ function LinkIncludes()
 {
     var includesTable = db.exec(`SELECT * FROM ${INCLUDES_TABLE}`);
     var nodes = document.getElementsByClassName("str");
+    if (nodes == null || nodes.length == 0) FindIfSource();
     for (var i = 0; i < nodes.length; i++) 
     {
         table = JSON.parse(JSON.stringify(includesTable));
@@ -218,6 +224,24 @@ function LinkIncludes()
         });
     }
 } 
+function FindIfSource()
+{
+    var fileName = location.href.split("/").slice(-1) + '';
+    var arr = fileName.split(".");
+    fileName = arr[0];
+    console.log("file name " + fileName);
+    var stmt = db.prepare(`SELECT * FROM ${INCLUDES_TABLE} WHERE Name=:val`);
+    var result = stmt.getAsObject({':val' : fileName});
+    var jsonResult = JSON.parse(JSON.stringify(result));
+    stmt.free();
+    console.log(jsonResult);
+    if (jsonResult != null && jsonResult.Name != null)
+    {
+        isSource = true;
+        sourceName = jsonResult.Name;
+    }
+    AddFooter();
+}
 function SetTitle(titleText)
 {
     var title = document.getElementsByTagName('title')[0];
@@ -235,36 +259,47 @@ function AddFooter()
     var space = document.createElement('div');
     body.appendChild(space);
     space.classList = "space";
-    var footer = document.createElement('footer');
-    body.appendChild(footer);
+    var footer = document.getElementById('footer');
+    if (footer == null)
+    {
+        footer = document.createElement('footer');
+        body.appendChild(footer);
+        footer.id = 'footer';
+    }
+    var sourceText = document.getElementById('footer-source');
+    if (sourceText == null)
+    {
+        sourceText = document.createElement('span');
+        sourceText.id = "footer-source";
+        footer.appendChild(sourceText);
+    }
+    sourceText.classList = isSource? "source" : "hidden";
     if (isSource)
     {
-        footer.classList = "source";
-        var sourceText = document.createElement('span');
-        sourceText.classList = "source";
-        footer.appendChild(sourceText);
         sourceText.innerHTML += `${sourceName} ` +
         `<a href="https://unity3d.com/get-unity/download/archive">v.${VERSION}</a>`;
     }
     else SetTitle("Shader Viewer Directory");
 
-    var footerText = document.createElement('span');
-    footer.appendChild(footerText);
-    var indexLink = `<a href="https://xibanya.github.io/UnityShaderViewer/"><i class="fa fa-home"></i></a>`;
-    footerText.innerHTML += indexLink;
-    
-    var repoLink = `<a href="https://github.com/Xibanya/UnityShaderViewer"><i class="fa fa-github"></i></a>`;
-    var tLink = `<a href="https://twitter.com/ManuelaXibanya"><i class="fa fa-twitter"></i></a>`;
-    var pLink = `<a href="https://www.patreon.com/teamdogpit"><i class="fa fab fa-patreon"></i></a>`;
-    var links = `${repoLink} ${tLink} ${pLink}`;
-    if (isSource)
+    var footerText = document.getElementById('footer-center');
+    if (footerText == null)
     {
-        var linkText = document.createElement('span');
-        linkText.classList = "links";
-        footer.appendChild(linkText);
-        linkText.innerHTML = links;
+        footerText = document.createElement('span');
+        footerText.id = "footer-center";
+        footerText.classList = "center";
+        footer.appendChild(footerText);
     }
-    else footerText.innerHTML += ` ${links}`;
+    footerText.innerHTML = URL_INDEX;
+    
+    var linkText = document.getElementById('footer-links');
+    if (linkText == null)
+    {
+        linkText = document.createElement('span');
+        linkText.id = "footer-links";
+        footer.appendChild(linkText);
+        linkText.innerHTML = EXTERNAL_LINKS;
+    }
+    linkText.classList = isSource? "links" : "";
 }
 
 //adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
