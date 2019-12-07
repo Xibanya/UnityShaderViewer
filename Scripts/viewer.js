@@ -303,3 +303,25 @@ function CreateNoResultsMsg()
         noResultsMsg.classList = "feedback hidden";
     }
 }
+var BTN_SUBMIT_ID = "btn-submit";
+var PASTEBIN_ID = "pastebin";
+var pastebin;
+var btnSubmit;
+
+function ProcessPaste()
+{
+    GetPasteElements();
+    targetNode.classList = "prettyprint linenums";
+    targetNode.innerHTML = pastebin.value;
+    PR.prettyPrint();
+    MakeLinks();
+    LinkIncludes();
+    AddFooter();
+}
+
+function GetPasteElements()
+{
+    if (targetNode == null) targetNode = document.getElementById(VIEWER_ID);
+    if (pastebin == null) pastebin = document.getElementById(PASTEBIN_ID);
+    //if (btnSubmit == null) btnSubmit = document.getElementById(BTN_SUBMIT_ID);
+}
