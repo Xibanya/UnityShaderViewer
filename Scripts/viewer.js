@@ -92,9 +92,10 @@ function DisplayFile(shaderFile, shaderName, extension)
         isSource = true;
         SetTitle(shaderName);
         sourceName = shaderName + extension;
+       
         PR.prettyPrint();
-        LinkIncludes();
         MakeLinks();
+        LinkIncludes();
         AddFooter();
     }
 }
