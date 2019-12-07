@@ -1,20 +1,26 @@
-<html><head>
-<link rel="stylesheet" type="text/css" href="https://xibanya.github.io/UnityShaderViewer/Styles/Style.css">
+<!DOCTYPE html><html>
+<head>
+<link rel="stylesheet" type="text/css" href="Styles/Style.css" id="MainStyle">
 <script src="https://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js" id="SQLScript"></script>
 </head><body>
 <div class="container">
-<pre class="prettyprint">
-<h2><a href="https://xibanya.github.io/UnityShaderViewer/Tools/Viewer.html">✨ Viewer ✨</a></h2>
-</pre>
+<div class="directory">
+<h2>Tools</h2>
+<h3><a href="Tools/Viewer.html">✨ Viewer</a></h3>
+<p>View your own shaders (or anyone else's) with auto-generated formatting, colors, and links to definitions.</p>
+<h3><a href="Tools/DynamicViewer.html">✨ Search</a></h3>
+<p>(Experimental) Search the built-in includes as if there were actually an IDE capable of maybe parsing them reasonably well.</p>
+</div>
 </div>
 
 <div class="container">
 <h2>Browse Built-In Includes</h2>
-<pre class="directory" id="includes-directory"></pre>
+<div class="directory" id="includes-directory"></div>
 <h2>Browse Built-In Shaders</h2>
-<pre class="directory" id="shader-directory"></pre>
+<div class="directory" id="shader-directory"></div>
 </div>
-  
+
+</body>
 <script src="https://xibanya.github.io/UnityShaderViewer/Scripts/run_prettify.js?skin=vscode"></script>
 <script src="Scripts/link_definitions.js"></script>
-</body></html>
+</html>
