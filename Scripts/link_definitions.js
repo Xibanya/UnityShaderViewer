@@ -272,12 +272,17 @@ function SetTitle(titleText)
 function AddFooter()
 {
     var body = document.getElementsByTagName('body')[0];
-    var space = document.createElement('div');
-    body.appendChild(space);
-    space.classList = "space";
     var footer = document.getElementById('footer');
     if (footer == null)
     {
+        var space = document.getElementById('footer-spacer');
+        if (space == null)
+        {
+            space = document.createElement('div');
+            body.appendChild(space);
+            space.classList = "space";
+            space.id = "footer-spacer";
+        }
         footer = document.createElement('footer');
         body.appendChild(footer);
         footer.id = 'footer';
