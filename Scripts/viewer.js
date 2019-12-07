@@ -1,3 +1,17 @@
+var VIEWER_ID = "shader";
+var VIEWER_CLASSES = "prettyprint linenums";
+var RESULTS_ID = "search-results";
+var INPUT_FIELD_ID = "shader_url";
+var TOGGLE_ID = "results-toggle"
+var zeroResults = []
+var noResultsMsg;
+var resultsContainer;
+var inputField;
+var toggleButton;
+var targetNode;
+var matches = 0;
+var SNIPPET_SIZE = 100;
+
 // ------------ displaying user-loaded shader ------------//
 var target = getUrlParam(
     'target',
@@ -10,8 +24,8 @@ request.onreadystatechange = function()
 {
     if (request.readyState == 4 && request.status == 200) 
     {
-        document.getElementById("shader").innerHTML = request.responseText;
-        document.getElementById("shader").className = "prettyprint";
+        document.getElementById(VIEWER_ID).innerHTML = request.responseText;
+        document.getElementById(VIEWER_ID).className = "prettyprint";
         PR.prettyPrint();
         MakeLinks();
     }
@@ -22,7 +36,7 @@ request.send();
 }
 function LoadShader()
 {
-    var target = document.getElementById("shader_url").value;
+    var target = document.getElementById(INPUT_FIELD_ID).value;
     var destination = "https://xibanya.github.io/UnityShaderViewer/Tools/Viewer.html?target=" + target;
     self.location.replace(destination);
 }
@@ -46,39 +60,245 @@ function getUrlParam(parameter, defaultvalue)
 }
 /////////////////////////////////
 
-//adapted from https://j11y.io/snippets/find-and-replace-text-with-javascript/
-function findAndReplace(searchText, replacement, searchNode) 
+function DisplayBuiltinInclude()
 {
-    if (!searchText || typeof replacement === 'undefined') {
-        // Throw error here if you want...
-        return;
+    GetRequiredNodes();
+    if (targetNode != null)
+    {
+        targetNode.classList = VIEWER_CLASSES;
+        var includeName = inputField.value;
+        //get text from DB
+        if (db != null)
+        {
+            var stmt = db.prepare(`SELECT * FROM ${INCLUDES_TABLE} WHERE Name=:val`);
+            var result = stmt.getAsObject({':val' : includeName});
+            var jsonResult = JSON.parse(JSON.stringify(result));
+            stmt.free();
+            if (jsonResult != null && jsonResult.File != null)
+            {
+                DisplayFile(jsonResult.File, includeName, jsonResult.Extension);
+            }
+            else VerboseLog(`No File text for Include ${includeName}`);
+        }
+        else VerboseLog("DB is null");
     }
-    var regex = typeof searchText === 'string' ?
-                new RegExp(`\\b${searchText}\\b`, 'g') : searchText,
-        childNodes = (searchNode || document.body).childNodes,
-        cnLength = childNodes.length,
-        excludes = 'html,head,style,title,link,meta,script,object,iframe';
-    while (cnLength--) {
-        var currentNode = childNodes[cnLength];
-        if (currentNode.nodeType === 1 &&
-            (excludes + ',').indexOf(currentNode.nodeName.toLowerCase() + ',') === -1) {
-            arguments.callee(searchText, replacement, currentNode);
-        }
-        if (currentNode.nodeType !== 3 || !regex.test(currentNode.data) ) {
-            continue;
-        }
-        var parent = currentNode.parentNode,
-            frag = (function(){
-                var html = currentNode.data.replace(regex, replacement),
-                    wrap = document.createElement('div'),
-                    frag = document.createDocumentFragment();
-                wrap.innerHTML = html;
-                while (wrap.firstChild) {
-                    frag.appendChild(wrap.firstChild);
+    else VerboseLog(`No DOM element with id ${VIEWER_ID}`);
+}
+function DisplayFile(shaderFile, shaderName, extension)
+{
+    if (targetNode != null)
+    {
+        targetNode.innerHTML = shaderFile;
+        isSource = true;
+        SetTitle(shaderName);
+        sourceName = shaderName + extension;
+        PR.prettyPrint();
+        LinkIncludes();
+        MakeLinks();
+        AddFooter();
+    }
+}
+
+function InputSearch()
+{
+    if (CanSearch())
+    {
+        var result = db.exec(`SELECT Name FROM ${INCLUDES_TABLE} WHERE File IS NOT NULL`);
+        var table = JSON.parse(JSON.stringify(result));
+       
+        if (table != null)
+        {
+            var includeName = inputField.value;
+            table[0].values.forEach(row => {
+                if (CaseInsensitiveMatch(row[0], includeName)) 
+                {
+                    matches++;
+                    AddIncludeLink(row[0]);
                 }
-                return frag;
-            })();
-        parent.insertBefore(frag, currentNode);
-        parent.removeChild(currentNode);
+            });
+            VerboseLog(`${matches} matches for ${includeName}`);
+            if (matches > 0) HideNoResultsMsg();
+        }
+        if (table == null || matches == 0)
+        {
+            zeroResults.push(includeName);
+            ShowNoResultsMsg();
+        }
     }
-};
+}
+function FullTextSearch()
+{
+    if (CanSearch())
+    {
+       ShowResults();
+        var includeName = inputField.value;
+        var result = db.exec(
+            `SELECT Name, File, Extension FROM ${INCLUDES_TABLE} ` + 
+            `WHERE File LIKE '%${includeName}%';`);
+        var table = JSON.parse(JSON.stringify(result));
+        matches = 0;
+        if (table != null && includeName.length > 3)
+        {
+            if (table[0] != null && table[0].values != null)
+            {
+                table[0].values.forEach(row => {
+                AddPreview(row, includeName);
+                });
+            }
+            if (matches == 0) ShowNoResultsMsg();
+            else HideNoResultsMsg();
+        }
+        else HideNoResultsMsg();
+    }
+}
+
+function AddPreview(row, userInput)
+{
+    var regex = new RegExp(userInput, "i");
+   
+    var shaderName = row[0];
+    var shaderFile = row[1];
+    var shaderExt = row[2];
+
+    if (shaderFile.match(regex))
+    {
+        matches++;
+        HideNoResultsMsg();
+        var allEx = new RegExp(userInput, "ig");
+        let result = shaderFile.match(allEx);
+        VerboseLog(`${shaderName} has ${result.length} matches`);
+        var newNode = AddIncludeLink(shaderName);
+        var matchNumber = document.createElement('p');
+        matchNumber.classList = "preview";
+        newNode.appendChild(matchNumber);
+        matchNumber.innerText = `${result.length} matches`;
+
+        var matchStartPosition = shaderFile.match(regex).index;
+        var matchEndPosition = matchStartPosition + shaderFile.match(regex)[0].toString().length;
+        var originalTextFoundByRegex = shaderFile.substring(matchStartPosition, matchEndPosition);
+
+        var snippetStartPosition = matchStartPosition - SNIPPET_SIZE;
+        if (snippetStartPosition < 0) snippetStartPosition = 0;
+        var snippetEndPosition = matchEndPosition + SNIPPET_SIZE;
+        if (snippetStartPosition > shaderFile.length) snippetStartPosition = shaderFile.length - 1;
+        var snippetText = shaderFile.substring(snippetStartPosition, snippetEndPosition);
+        if (snippetStartPosition > 3) snippetText = "<i> . . . </i>" + snippetText;
+        if (snippetEndPosition < shaderFile.length - 3) snippetText += "<i> . . . </i>";
+
+        var fileLink = `<span class="highlight" id="${originalTextFoundByRegex}">${originalTextFoundByRegex}</span>`;
+       var linkFile = shaderFile.replace(regex, fileLink);
+
+        var uniqueID = `${originalTextFoundByRegex}-link`;
+        var highlightTag = `<a class="highlight" id="${uniqueID}">${originalTextFoundByRegex}</a>`;
+        snippetText = snippetText.replace(regex, highlightTag);
+
+        var preview = document.createElement('pre');
+        preview.classList = "preview";
+        newNode.appendChild(preview);
+        preview.innerHTML = snippetText;
+        var highlightLink = document.getElementById(uniqueID);
+        SubscribeLink(highlightLink, shaderName, shaderFile, shaderExt);
+    }
+}
+
+function CanSearch()
+{
+    GetRequiredNodes();
+    resultsContainer.innerHTML = "";
+    var includeName = inputField.value;
+    if (includeName != null && includeName != "" && db != null)
+    {
+        if (!zeroResults.includes(includeName))
+        {
+            return true;
+        }
+        else ShowNoResultsMsg();
+    }
+    else HideNoResultsMsg();
+    return false;
+}
+
+function AddListItem()
+{
+    GetRequiredNodes();
+    var newListItem = document.createElement('li');
+    resultsContainer.appendChild(newListItem);
+    return newListItem;
+}
+function AddIncludeLink(cgInclude)
+{
+    var newListItem = AddListItem();
+    var newLink = document.createElement('a');
+    newListItem.appendChild(newLink);
+    newLink.id = cgInclude;
+    newLink.href = '';
+    newLink.innerText = newLink.id;
+    newLink.onclick = function() 
+    {
+        HideResults();
+        inputField.value = cgInclude;
+        DisplayBuiltinInclude();
+        inputField.value = '';
+        return false;
+    }
+    return newListItem;
+}
+
+function SubscribeLink(link, shaderName, shaderFile, extension)
+{
+    if (shaderFile != null && shaderName != null)
+    {
+        if (extension == null) extension = ".cginc";
+        link.onclick = function()
+        {
+            HideResults();
+            DisplayFile(shaderFile, shaderName, extension);
+            return false;
+        }
+    }
+}
+
+function NoResultsString() { return `No results for ${inputField.value}`; }
+function ShowNoResultsMsg() 
+{
+    noResultsMsg.innerText = NoResultsString();
+    noResultsMsg.classList = "feedback";
+}
+function HideNoResultsMsg() { noResultsMsg.classList = "feedback hidden"; }
+function CaseInsensitiveMatch(entry, input) { return entry.toLowerCase().includes(input.toLowerCase()); }
+function GetRequiredNodes()
+{
+    if (targetNode == null) targetNode = document.getElementById(VIEWER_ID);
+    if (resultsContainer == null) resultsContainer = document.getElementById(RESULTS_ID);
+    if (inputField == null) inputField = document.getElementById(INPUT_FIELD_ID);
+    if (toggleButton == null) toggleButton = document.getElementById(TOGGLE_ID);
+    CreateNoResultsMsg();
+}
+
+function ResultsHidden() { return resultsContainer.parentNode.classList.contains("hidden");}
+function HideResults() 
+{ 
+    resultsContainer.parentNode.classList = "directory search-container hidden"; 
+    toggleButton.innerText = "Show Results";
+}
+function ShowResults() 
+{ 
+    resultsContainer.parentNode.classList = "directory search-container"; 
+    toggleButton.innerText = "Hide Results";
+}
+function ToggleResults()
+{
+    if (ResultsHidden()) ShowResults();
+    else HideResults();
+}
+
+function CreateNoResultsMsg()
+{
+    if (noResultsMsg == null)
+    {
+        noResultsMsg = document.createElement('div');
+        InsertAfter(noResultsMsg, resultsContainer);
+        noResultsMsg.innerText = "No results";
+        noResultsMsg.classList = "feedback hidden";
+    }
+}
