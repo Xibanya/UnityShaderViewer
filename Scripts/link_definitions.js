@@ -72,7 +72,7 @@ function IncludesDirectory()
         var header = HeaderBefore(3, "CGIncludes", directory);
 
         var includes = db.exec(
-            `SELECT * FROM ${INCLUDES_TABLE} WHERE URL IS ` +
+            `SELECT Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS ` +
             "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
         GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
 
@@ -82,7 +82,7 @@ function IncludesDirectory()
         DirectoryAfter(otherDirectoryID, otherHeader);
 
         var otherIncludes = db.exec(
-            `SELECT * FROM ${INCLUDES_TABLE} WHERE URL IS NOT ` + 
+            `SELECT Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS NOT ` + 
             "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
         GenerateDirectory(otherIncludes, otherDirectoryID);
     }
@@ -202,7 +202,7 @@ function MakeLinks()
 //puts links on known Includes
 function LinkIncludes()
 {
-    var includesTable = db.exec(`SELECT * FROM ${INCLUDES_TABLE}`);
+    var includesTable = db.exec(`SELECT Name, URL, Extension FROM ${INCLUDES_TABLE}`);
     var nodes = document.getElementsByClassName("str");
     for (var i = 0; i < nodes.length; i++) 
     {
@@ -227,7 +227,7 @@ function FindIfSource()
     VerboseLog("file name " + fileName);
 
     //check if this is an include
-    var stmt = db.prepare(`SELECT * FROM ${INCLUDES_TABLE} WHERE Name=:val`);
+    var stmt = db.prepare(`SELECT Name, Extension FROM ${INCLUDES_TABLE} WHERE Name=:val`);
     var result = stmt.getAsObject({':val' : fileName});
     var jsonResult = JSON.parse(JSON.stringify(result));
     stmt.free();
@@ -292,7 +292,7 @@ function AddFooter()
     sourceText.classList = isSource? "source" : "hidden";
     if (isSource)
     {
-        sourceText.innerHTML += `${sourceName} ` +
+        sourceText.innerHTML = `${sourceName} ` +
         `<a href="https://unity3d.com/get-unity/download/archive">v.${VERSION}</a>`;
     }
     else SetTitle("Shader Viewer Directory");
