@@ -10,7 +10,7 @@ var inputField;
 var toggleButton;
 var targetNode;
 var matches = 0;
-var SNIPPET_SIZE = 100;
+var SNIPPET_SIZE = 150;
 
 // ------------ displaying user-loaded shader ------------//
 var target = getUrlParam(
