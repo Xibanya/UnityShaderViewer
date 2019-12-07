@@ -202,7 +202,7 @@ function MakeLinks()
 //puts links on known Includes
 function LinkIncludes()
 {
-    var includesTable = db.exec(`SELECT Name, URL, Extension FROM ${INCLUDES_TABLE}`);
+    var includesTable = db.exec(`SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE}`);
     var nodes = document.getElementsByClassName("str");
     for (var i = 0; i < nodes.length; i++) 
     {
