@@ -81,6 +81,17 @@ pre .nocode
     font-family: 'Montserrat', sans-serif;
     color: var(--fgColor); 
 }
+div.feedback
+{
+   color: var(--directive);
+   display: block;
+   font-style: italic; 
+   margin:0.5em auto;
+   border-radius: var(--radius);
+   background-color: var(--footer-bg-color);
+}
+div.feedback.hidden { display: none !important; }
+
 ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE }
 li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: decimal !important; }
 
@@ -168,3 +179,39 @@ footer .fa {
 .fa-github:before { content: "\f09b"; }
 .fa-home:before { content: "\f015"; }
 .fa-patreon:before { content: "\f3d9"; }
+
+pre.preview 
+{
+    color: var(--type);
+    border-radius: var(--radius);
+    background-color: var(--footer-bg-color);
+    width:95%; 
+    margin:0.5em auto; 
+    padding:0.5em; 
+    white-space:pre-wrap;
+}
+pre.preview > p.preview
+{
+    margin-block-start:0px;
+    margin-top:-6px;
+}
+pre.preview > a.highlight
+{
+    background-color: var(--directive);
+    color: var(--bgColor);
+    font-style: bold;
+}
+
+pre.prettyprinted > a.highlight {
+    background-color: var(--directive) !important; 
+    color: var(--bgColor) !important; 
+    font-style: bold !important; 
+    font-size: larger !important; 
+}
+
+div.directory.search-container {
+    display: block;
+}
+div.directory.search-container.hidden {
+    display: none !important;
+}
