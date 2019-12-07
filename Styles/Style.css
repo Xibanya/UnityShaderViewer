@@ -40,7 +40,7 @@ h1,h2 { padding-left: 0; }
 h3,h4,h5,h6 { padding-left: 1em; }
 
 /* Links */
-a 
+a, input[type=submit]
 {
     font-weight: bold;
     -webkit-transition: all .3s;
@@ -61,6 +61,9 @@ a:hover { text-decoration: underline; }
     margin-top: 8px;
     margin-bottom: 8px;
 }
+div.directory p {
+    padding-left: 1em;
+}
 .directory,
 code.prettyprint,
 pre.prettyprint
@@ -80,6 +83,11 @@ pre .nocode
 { 
     font-family: 'Montserrat', sans-serif;
     color: var(--fgColor); 
+}
+.paste-padded
+{
+    padding-top:250px; 
+    padding-bottom:25px
 }
 div.feedback
 {
@@ -215,3 +223,49 @@ div.directory.search-container {
 div.directory.search-container.hidden {
     display: none !important;
 }
+input[type=text], select, textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    float: left;
+    margin-top: 6px;
+}
+.paste-container {
+    position: fixed;
+    display: block;
+    top:0;
+    width:100%;
+    border-radius: 5px;
+    background-color: var(--footer-bg-color);
+    padding: 20px;
+    box-sizing: border-box;
+    left: 0;
+    right: 0;
+  }
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  input[type=submit] 
+  {
+    font-family: 'Inconsolata', monospace;
+    font-size: larger;
+    box-sizing: border-box;
+    background-color: var(--fgColor);
+    color: var(--bgColor);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+    margin-top:1em;
+    bottom:5px;
+  }
+  input[type=submit]:hover {
+    background-color: var(--directive);
+  }
+  
