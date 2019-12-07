@@ -72,7 +72,7 @@ function IncludesDirectory()
         var header = HeaderBefore(3, "CGIncludes", directory);
 
         var includes = db.exec(
-            `SELECT Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS ` +
+            `SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS ` +
             "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
         GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
 
@@ -82,7 +82,7 @@ function IncludesDirectory()
         DirectoryAfter(otherDirectoryID, otherHeader);
 
         var otherIncludes = db.exec(
-            `SELECT Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS NOT ` + 
+            `SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS NOT ` + 
             "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
         GenerateDirectory(otherIncludes, otherDirectoryID);
     }
