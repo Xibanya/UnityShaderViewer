@@ -69,6 +69,7 @@ a:hover { text-decoration: underline; }
 {
    color: var(--type);
    font-size: 18.4px;
+   text-shadow: 0 0 2px #001716, 0 0 3px #03edf975, 0 0 5px #03edf975, 0 0 8px #03edf975;
 }
 .directory > ul {
     margin-top: 8px;
@@ -143,6 +144,8 @@ footer
     background-color: var(--footer-bg-color);
     padding-top: 0.5em;
     color: var(--fgColor);
+    text-shadow: 0 0 2px #393a33, 0 0 8px #f39f0575, 0 0 2px #f39f0575;
+    box-shadow: inset 0 -5px 25px #fc28a825;
 }
 footer > span
 {
