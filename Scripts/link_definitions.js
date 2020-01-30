@@ -6,12 +6,15 @@ var LINENUMS_CLASS = "linenums";
 var INCLUDES_TABLE = "Includes";
 var DEFINITIONS_TABLE = "Definitions";
 var SHADERS_TABLE = "Shaders";
+var DIRECTORIES_TABLE = "Directories";
 var FILE_NAME = 1;
 var FILE_PATH = 2;
 var EXTENSION = 3;
-var VERSION = "2019.1.6f1";
+var VERSION = 4;
+var DEFAULT_VERSION = "2019.1.6f1";
 var isSource = false;
 var sourceName = null;
+var versionNumber = DEFAULT_VERSION;
 
 var SCRIPTS_PATH = "https://xibanya.github.io/UnityShaderViewer/Scripts/";
 
@@ -33,6 +36,11 @@ var URL_P = `<a href="https://www.patreon.com/teamdogpit"><i class="fa fab fa-pa
 var EXTERNAL_LINKS = `${URL_REPO} ${URL_T} ${URL_P}`;
 
 AddScript(SQL_PATH + SQL_SCRIPT, SQL_SCRIPT_ID);
+
+var INCLUDES_DIRECTORIES = '{ "Directories":[' +
+'{ "ID": 1, "Name": "CGIncludes", "Path": "BuiltinShaders/CGIncludes/", "ElementID": "includes-directory" },' +
+'{ "ID": 2, "Name": "Default Resources", "Path": "BuiltinShaders/DefaultResources/", "ElementID": "other-includes-directory" },' +
+'{ "ID": 3, "Name": "Post Processing", "Path": "PostProcessing/", "ElementID": "ppv2-includes-directory" }]}';
 
 window.setTimeout(function() {
 initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (SQL) {  
@@ -69,22 +77,25 @@ function IncludesDirectory()
     var directory = document.getElementById(INCLUDE_DIRECTORY_ID);
     if (directory != null)
     {
-        var header = HeaderBefore(3, "CGIncludes", directory);
-
-        var includes = db.exec(
-            `SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS ` +
-            "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
-        GenerateDirectory(includes, INCLUDE_DIRECTORY_ID);
-
-        var otherHeader = HeaderAfter(3, "DefaultResources", directory);
-      
-        var otherDirectoryID = "other-includes-directory";
-        DirectoryAfter(otherDirectoryID, otherHeader);
-
-        var otherIncludes = db.exec(
-            `SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS NOT ` + 
-            "'BuiltinShaders/CGIncludes/' ORDER BY Name ASC");
-        GenerateDirectory(otherIncludes, otherDirectoryID);
+        directoryTable = JSON.parse(INCLUDES_DIRECTORIES);
+        for (var i = 0; i < directoryTable.Directories.length; i++)
+        {
+            var row = directoryTable.Directories[i];
+            if (row.ID == 1) 
+            {
+                var header = HeaderBefore(3, row.Name, directory);
+            }
+            else
+            {
+                var lastDirectory = document.getElementById(directoryTable.Directories[i - 1].ElementID);
+                var header = HeaderAfter(3, row.Name,  lastDirectory);
+                DirectoryAfter(row.ElementID, header);
+            }
+            var includes = db.exec(
+                `SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS ` + 
+                `'${row.Path}' ORDER BY Name ASC`);
+            GenerateDirectory(includes, row.ElementID);
+        }
     }
 }
 function ShaderDirectory()
@@ -227,7 +238,7 @@ function FindIfSource()
     VerboseLog("file name " + fileName);
 
     //check if this is an include
-    var stmt = db.prepare(`SELECT Name, Extension FROM ${INCLUDES_TABLE} WHERE Name=:val`);
+    var stmt = db.prepare(`SELECT Name, Extension, Version FROM ${INCLUDES_TABLE} WHERE Name=:val`);
     var result = stmt.getAsObject({':val' : fileName});
     var jsonResult = JSON.parse(JSON.stringify(result));
     stmt.free();
@@ -236,6 +247,7 @@ function FindIfSource()
         VerboseLog(jsonResult);
         isSource = true;
         sourceName = jsonResult.Name + jsonResult.Extension;
+        if (jsonResult.Version != null && jsonResult.Version != "") versionNumber = jsonResult.Version;
         SetTitle(jsonResult.Name);
     }
 
@@ -252,6 +264,7 @@ function FindIfSource()
             VerboseLog(shResult);
             isSource = true;
             sourceName = shResult.ShaderName;
+            if (shResult.Version != null && shResult.Version != "") versionNumber = shResult.Version;
             SetTitle(shResult.FileName);
         }
     }
@@ -298,7 +311,7 @@ function AddFooter()
     if (isSource)
     {
         sourceText.innerHTML = `${sourceName} ` +
-        `<a href="https://unity3d.com/get-unity/download/archive">v.${VERSION}</a>`;
+        `<a href="https://unity3d.com/get-unity/download/archive">v.${versionNumber}</a>`;
     }
     else SetTitle("Shader Viewer Directory");
 
