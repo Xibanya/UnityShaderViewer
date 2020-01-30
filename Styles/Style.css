@@ -34,7 +34,7 @@ div.space
 h1,h2,h3,h4,h5,h6 
 { 
     color: #f92aad;
-    text-shadow: 0 0 2px #100c0f, 0 0 5px #dc078e33, 0 0 10px #fff3;
+    text-shadow: 0 0 2px #100c0f, 0 0 5px #dc078e65, 0 0 10px #fff3;
     background-color: transparent !important;
     margin-bottom: 2px; 
 }
@@ -64,14 +64,19 @@ a:link { text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* Directory and Prettyprint Blocks */
-.directory .linenums { margin-top: 0px; }
+.directory .linenums 
+{ 
+    margin-top: 0px; 
+    color:  #6d77b3;
+}
 .directory a 
 {
    color: var(--type);
    font-size: 18.4px;
    text-shadow: 0 0 2px #001716, 0 0 3px #03edf975, 0 0 5px #03edf975, 0 0 8px #03edf975;
 }
-.directory > ul {
+.directory > ul 
+{
     margin-top: 8px;
     margin-bottom: 8px;
 }
@@ -300,4 +305,3 @@ input[type=text], select, textarea {
   input[type=submit]:hover {
     background-color: var(--directive);
   }
-  
