@@ -33,8 +33,21 @@ div.space
 /* Headers */
 h1,h2,h3,h4,h5,h6 
 { 
-    color: var(--directive);
-    margin-bottom: 0px; 
+    color: #f92aad;
+    text-shadow: 0 0 2px #100c0f, 0 0 5px #dc078e33, 0 0 10px #fff3;
+    background-color: transparent !important;
+    margin-bottom: 2px; 
+}
+div.accent
+{
+    margin-top: -5px;
+ margin-left: 15px;
+ max-width: 300px;
+ background-color: transparent !important;
+ background-repeat: no-repeat;
+ height: 2px;
+ margin-bottom: 4px; 
+ background-image: linear-gradient(to right, #fc28a8, #03edf9);
 }
 h1,h2 { padding-left: 0; }
 h3,h4,h5,h6 { padding-left: 1em; }
@@ -68,9 +81,14 @@ div.directory p {
 code.prettyprint,
 pre.prettyprint
 { 
-    background-color: var(--bgColor); 
+    background-color: transparent !important;
+    background-image: linear-gradient(to bottom, #2a2139 75%, #34294f);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
     border-radius: var(--radius);
     font-family: 'Inconsolata', monospace;
+    padding: 5px;
 }
 pre.prettyprint
 {
