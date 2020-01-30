@@ -77,18 +77,24 @@ a:hover { text-decoration: underline; }
 div.directory p {
     padding-left: 1em;
 }
-.directory,
-code.prettyprint,
-pre.prettyprint
-{ 
+.directory
+{
     background-color: transparent !important;
     background-image: linear-gradient(to bottom, #2a2139 75%, #34294f);
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
+}
+.directory, code.prettyprint,
+pre.prettyprint
+{ 
     border-radius: var(--radius);
     font-family: 'Inconsolata', monospace;
     padding: 5px;
+}
+code.prettyprint, pre.prettyprint {
+    color: var(--fgColor); 
+    background-color: var(--bgColor);
 }
 pre.prettyprint
 {
