@@ -234,7 +234,7 @@ function sourceDecorator(options)
    catch(y){Q.console&&console.log(y&&y.stack||y)}}
    var Q="undefined"!==typeof window?window:{},
    FLOW_CONTROL_KEYWORDS=["break,continue,do,else,for,if,return,while"],
-   K=[[FLOW_CONTROL_KEYWORDS,"auto,case,char,const,default,double,enum,extern,float,float2,float3,float4,float2x2,float3x3,float4x4," + 
+   K=[[FLOW_CONTROL_KEYWORDS,"auto,case,char,const,default,double,enum,extern,float,float2,float3,float4,bool4,float2x2,float3x3,float4x4," + 
    "fixed,fixed2,fixed3,fixed4,fixed2x2,fixed3x3,fixed4x4" +
    "goto,half,half2,half2x2,half3,half3x3,half4,half4x4,inline,int,long,register,restrict,short,signed,sizeof,static," + 
    "struct,switch,samplerCUBE,samplerCUBE_float,sampler2D_float,sampler2D,typedef,union,unsigned,void,volatile"],

@@ -64,7 +64,7 @@
    try{for(;c<n;){var h=l[c+2]||q,k=b[w+2]||q,v=Math.min(h,k),A=l[c+1],C;if(1!==A.nodeType&&(C=t.substring(f,v))){m&&(C=C.replace(d,"\r"));A.nodeValue=C;var N=A.ownerDocument,u=N.createElement("span");u.className=b[w+1];var B=A.parentNode;B.replaceChild(u,A);u.appendChild(A);f<h&&(l[c+1]=A=N.createTextNode(t.substring(v,h)),B.insertBefore(A,u.nextSibling))}f=v;f>=h&&(c+=2);f>=k&&(w+=2)}}finally{g&&(g.style.display=a)}}catch(y){D.console&&console.log(y&&y.stack||y)}}var D="undefined"!==typeof window?
    window:{},
    B=["break,continue,do,else,for,if,return,while"],
-   F=[[B,"auto,case,char,const,default,double,enum,extern,float,float2,float3,float4,float2x2,float3x3,goto,half,half2,half3,half4,inline,int,long,register,restrict,short,signed,sizeof,static,struct,switch,samplerCUBE,samplerCUBE_float,sampler2D,sampler2D_float,typedef,union,unsigned,void,volatile"],
+   F=[[B,"auto,case,char,const,default,double,enum,extern,float,float2,float3,float4,bool4,float2x2,float3x3,goto,half,half2,half3,half4,inline,int,long,register,restrict,short,signed,sizeof,static,struct,switch,samplerCUBE,samplerCUBE_float,sampler2D,sampler2D_float,typedef,union,unsigned,void,volatile"],
    "catch,class,delete,false,import,new,operator,private,protected,public,this,throw,true,try,typeof"],
    H=[F,"alignas,alignof,align_union,asm,axiom,bool,concept,concept_map,const_cast,constexpr,decltype,delegate,dynamic_cast,explicit,export,friend,generic,late_check,mutable,namespace,noexcept,noreturn,nullptr,property,reinterpret_cast,static_assert,static_cast,template,typeid,typename,using,virtual,where"],
    O=[F,"abstract,assert,boolean,byte,extends,finally,implements,import,instanceof,interface,null,native,package,strictfp,super,synchronized,throws,transient"],
