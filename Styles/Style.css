@@ -141,10 +141,11 @@ footer
     overflow: hidden;
     text-align: center;
     height: var(--footer-height);
-    background-color: var(--footer-bg-color);
     padding-top: 0.5em;
-    color: var(--fgColor);
-    text-shadow: 0 0 2px #393a33, 0 0 8px #f39f0575, 0 0 2px #f39f0575;
+    color: #6d77b3;
+    background-image: linear-gradient(to bottom, #2a2139 75%, #34294f);
+    background-color: transparent !important;
+    background-repeat: no-repeat;
     box-shadow: inset 0 -5px 25px #fc28a825;
 }
 footer > span
@@ -177,7 +178,11 @@ footer > span.links
 }
 footer > span.hidden { display: none; }
 footer a { color: inherit; }
-footer a:hover { color: var(--directive); }
+footer a:hover 
+{ 
+    color: #f92aad;
+    text-shadow: 0 0 2px #100c0f, 0 0 6px #dc078e33, 0 0 12px #fff3;
+}
 footer .fa {
    margin-left:1em; 
 }
