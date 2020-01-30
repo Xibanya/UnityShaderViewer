@@ -110,16 +110,21 @@ function ShaderDirectory()
     if (directory != null)
     {
         var header = HeaderBefore(3, "Default Resources", directory);
-
+        var accent = document.createElement('div');
+        accent.className = "accent";
+        InsertAfter(accent, header);
         var shaders = db.exec(
             `SELECT * FROM ${SHADERS_TABLE} WHERE FilePath Like ` + 
             "'BuiltinShaders/DefaultResources/%' ORDER BY FilePath, FileName ASC");
             GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
         
         var otherHeader = HeaderAfter(3, "Default Resources Extra", directory);
-       
+        var accent2 = document.createElement('div');
+        accent2.className = "accent";
+        InsertAfter(accent2, otherHeader);
+
         var otherDirectoryID = "other-shaders-directory";
-        DirectoryAfter(otherDirectoryID, otherHeader);
+        DirectoryAfter(otherDirectoryID, accent2);
        
         var otherShaders = db.exec(
             `SELECT * FROM ${SHADERS_TABLE} WHERE FilePath NOT Like ` + 
