@@ -84,12 +84,18 @@ function IncludesDirectory()
             if (row.ID == 1) 
             {
                 var header = HeaderBefore(3, row.Name, directory);
+                var accent = document.createElement('div');
+                accent.className = "accent";
+                InsertAfter(accent, header);
             }
             else
             {
                 var lastDirectory = document.getElementById(directoryTable.Directories[i - 1].ElementID);
                 var header = HeaderAfter(3, row.Name,  lastDirectory);
-                DirectoryAfter(row.ElementID, header);
+                var accent = document.createElement('div');
+                accent.className = "accent";
+                InsertAfter(accent, header);
+                var newSection = DirectoryAfter(row.ElementID, accent);
             }
             var includes = db.exec(
                 `SELECT ID, Name, URL, Extension FROM ${INCLUDES_TABLE} WHERE URL IS ` + 
@@ -410,6 +416,12 @@ function HeaderBefore(size, title, referenceNode)
     header.innerText = title
     referenceNode.parentNode.insertBefore(header, referenceNode);
     return header;
+}
+function HeaderInto(size, title, referenceNode)
+{
+    var newID = `${title}-header`;
+    referenceNode.innerHTML += `<h${size} id="${newID}">${title}</h${size}>`;
+    return document.getElementById(newID);
 }
 function HeaderAfter(size, title, referenceNode)
 {
