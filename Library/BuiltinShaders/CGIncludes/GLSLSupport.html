@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" type="text/css" href="../../../Styles/Style.css" id="MainStyle">
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js" id="SQLScript"></script></head>
+<body><pre class="prettyprint linenums">
+// Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
+
+#ifndef <a name="GLSL_SUPPORT_INCLUDED">GLSL_SUPPORT_INCLUDED</a>
+#define GLSL_SUPPORT_INCLUDED
+
+// Automatically included in raw GLSL (GLSLPROGRAM) shader snippets, to map from some of the legacy OpenGL
+// variable names to uniform names used by Unity.
+
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+#else
+    precision mediump float;
+#endif
+
+uniform mat4 unity_ObjectToWorld;
+uniform mat4 unity_WorldToObject;
+uniform mat4 unity_MatrixVP;
+uniform mat4 unity_MatrixV;
+uniform mat4 unity_MatrixInvV;
+uniform mat4 <a name="glstate_matrix_projection">glstate_matrix_projection</a>;
+
+#define <a name="gl_ModelViewProjectionMatrix">gl_ModelViewProjectionMatrix</a>        (unity_MatrixVP * unity_ObjectToWorld)
+#define <a name="gl_ModelViewMatrix">gl_ModelViewMatrix</a>                  (unity_MatrixV * unity_ObjectToWorld)
+#define <a name="gl_ModelViewMatrixTranspose">gl_ModelViewMatrixTranspose</a>         (transpose(unity_MatrixV * unity_ObjectToWorld))
+#define <a name="gl_ModelViewMatrixInverseTranspose">gl_ModelViewMatrixInverseTranspose</a>  (transpose(unity_WorldToObject * unity_MatrixInvV))
+#define <a name="gl_NormalMatrix">gl_NormalMatrix</a>                     (transpose(mat3(unity_WorldToObject * unity_MatrixInvV)))
+#define <a name="gl_ProjectionMatrix">gl_ProjectionMatrix</a>                 glstate_matrix_projection
+
+#if __VERSION__ < 120
+#ifndef <a name="UNITY_GLSL_STRIP_TRANSPOSE">UNITY_GLSL_STRIP_TRANSPOSE</a>
+mat3 <a name="transpose">transpose</a>(mat3 mtx)
+{
+    vec3 c0 = mtx[0];
+    vec3 c1 = mtx[1];
+    vec3 c2 = mtx[2];
+
+    return mat3(
+        vec3(c0.x, c1.x, c2.x),
+        vec3(c0.y, c1.y, c2.y),
+        vec3(c0.z, c1.z, c2.z)
+    );
+}
+mat4 transpose(mat4 mtx)
+{
+    vec4 c0 = mtx[0];
+    vec4 c1 = mtx[1];
+    vec4 c2 = mtx[2];
+    vec4 c3 = mtx[3];
+
+    return mat4(
+        vec4(c0.x, c1.x, c2.x, c3.x),
+        vec4(c0.y, c1.y, c2.y, c3.y),
+        vec4(c0.z, c1.z, c2.z, c3.z),
+        vec4(c0.w, c1.w, c2.w, c3.w)
+    );
+}
+#endif
+#endif // __VERSION__ < 120
+
+#endif // GLSL_SUPPORT_INCLUDED
+</pre>
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/run_prettify.js?skin=vscode"></script>
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/link_definitions.js"></script>
+</body></html>
