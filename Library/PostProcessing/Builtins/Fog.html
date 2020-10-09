@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" type="text/css" href="https://xibanya.github.io/UnityShaderViewer/Styles/Style.css" id="MainStyle">
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/sql-wasm.js" id="SQLScript"></script></head>
+<body><pre class="prettyprint linenums">
+#ifndef UNITY_POSTFX_FOG
+#define UNITY_POSTFX_FOG
+
+half4 _FogColor;
+float3 _FogParams;
+
+#define FOG_DENSITY _FogParams.x
+#define FOG_START _FogParams.y
+#define FOG_END _FogParams.z
+
+half <a name="ComputeFog">ComputeFog</a>(float z)
+{
+    half fog = 0.0;
+#if FOG_LINEAR
+    fog = (FOG_END - z) / (FOG_END - FOG_START);
+#elif FOG_EXP
+    fog = exp2(-FOG_DENSITY * z);
+#else // FOG_EXP2
+    fog = FOG_DENSITY * z;
+    fog = exp2(-fog * fog);
+#endif
+    return saturate(fog);
+}
+
+float <a name="ComputeFogDistance">ComputeFogDistance</a>(float depth)
+{
+    float dist = depth * _ProjectionParams.z;
+    dist -= _ProjectionParams.y;
+    return dist;
+}
+
+#endif // UNITY_POSTFX_FOG
+</pre>
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/run_prettify.js?skin=vscode"></script>
+<script src="https://xibanya.github.io/UnityShaderViewer/Scripts/link_definitions.js"></script>
+</body></html>
