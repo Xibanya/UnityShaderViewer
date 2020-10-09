@@ -40,7 +40,13 @@ AddScript(SQL_PATH + SQL_SCRIPT, SQL_SCRIPT_ID);
 var INCLUDES_DIRECTORIES = '{ "Directories":[' +
 '{ "ID": 1, "Name": "CGIncludes", "Path": "BuiltinShaders/CGIncludes/", "ElementID": "includes-directory" },' +
 '{ "ID": 2, "Name": "Default Resources", "Path": "BuiltinShaders/DefaultResources/", "ElementID": "other-includes-directory" },' +
-'{ "ID": 3, "Name": "Post Processing", "Path": "PostProcessing/", "ElementID": "ppv2-includes-directory" }]}';
+'{ "ID": 3, "Name": "Post Processing", "Path": "PostProcessing/", "ElementID": "ppv2-includes-directory" },' + 
+'{ "ID": 4, "Name": "Post Processing Builtins", "Path": "PostProcessing/Builtins/", "ElementID": "ppv2-includes-builtins" }]}';
+
+var SHADER_DIRECTORIES = '{ "Directories":[' +
+'{ "ID": 1, "Name": "Default Resources", "Path": "BuiltinShaders/DefaultResources/", "ElementID": "shader-directory" },' +
+'{ "ID": 2, "Name": "Default Resources Extra", "Path": "BuiltinShaders/DefaultResourcesExtra/", "ElementID": "defaultextra-shader-directory" },' +
+'{ "ID": 3, "Name": "Post Processing", "Path": "PostProcessing/Builtins/", "ElementID": "ppv2-shader-directory" }]}';
 
 window.setTimeout(function() {
 initSqlJs({ locateFile: filename => SQL_PATH + `${filename}` }).then(function (SQL) {  
@@ -109,27 +115,31 @@ function ShaderDirectory()
     var directory = document.getElementById(SHADER_DIRECTORY_ID);
     if (directory != null)
     {
-        var header = HeaderBefore(3, "Default Resources", directory);
-        var accent = document.createElement('div');
-        accent.className = "accent";
-        InsertAfter(accent, header);
-        var shaders = db.exec(
-            `SELECT * FROM ${SHADERS_TABLE} WHERE FilePath Like ` + 
-            "'BuiltinShaders/DefaultResources/%' ORDER BY FilePath, FileName ASC");
-            GenerateDirectory(shaders, SHADER_DIRECTORY_ID);
-        
-        var otherHeader = HeaderAfter(3, "Default Resources Extra", directory);
-        var accent2 = document.createElement('div');
-        accent2.className = "accent";
-        InsertAfter(accent2, otherHeader);
-
-        var otherDirectoryID = "other-shaders-directory";
-        DirectoryAfter(otherDirectoryID, accent2);
-       
-        var otherShaders = db.exec(
-            `SELECT * FROM ${SHADERS_TABLE} WHERE FilePath NOT Like ` + 
-            "'BuiltinShaders/DefaultResources/%' ORDER BY FilePath, FileName ASC");
-            GenerateDirectory(otherShaders, otherDirectoryID);
+        directoryTable = JSON.parse(SHADER_DIRECTORIES);
+        for (var i = 0; i < directoryTable.Directories.length; i++)
+        {
+            var row = directoryTable.Directories[i];
+            if (row.ID == 1) 
+            {
+                var header = HeaderBefore(3, row.Name, directory);
+                var accent = document.createElement('div');
+                accent.className = "accent";
+                InsertAfter(accent, header);
+            }
+            else
+            {
+                var lastDirectory = document.getElementById(directoryTable.Directories[i - 1].ElementID);
+                var header = HeaderAfter(3, row.Name, lastDirectory);
+                var accent = document.createElement('div');
+                accent.className = "accent";
+                InsertAfter(accent, header);
+                var newSection = DirectoryAfter(row.ElementID, accent);
+            }
+            var shaders = db.exec(
+                `SELECT * FROM ${SHADERS_TABLE} WHERE FilePath IS ` + 
+                `'${row.Path}' ORDER BY FilePath, FileName ASC`);
+                GenerateDirectory(shaders, row.ElementID);
+        }
     }
 }
 
