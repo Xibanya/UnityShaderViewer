@@ -301,7 +301,11 @@ function SetTitle(titleText)
         title = document.createElement('title');
         head.appendChild(title);
     }
-    title.innerText = titleText;
+    //dumb hack to get around DepthOfField.hlsl and DepthOfField.shader 
+    //sharing a directory, TODO: eventually make my system smarter so I 
+    //don't have to do this
+    if (titleText == "DepthOField") title.innerText = "DepthOfField";
+    else title.innerText = titleText;
 }
 function AddFooter()
 {
