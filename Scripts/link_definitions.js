@@ -275,7 +275,7 @@ function FindIfSource()
     //check if this is a shader
     if (!isSource)
     {
-        var shQ = db.prepare(`SELECT * FROM ${SHADERS_TABLE} WHERE FileName=:val`);
+        var shQ = db.prepare(`SELECT * FROM ${SHADERS_TABLE} WHERE FileName=:val OR LinkName=:val`);
         var r = shQ.getAsObject({':val' : fileName});
         var shResult = JSON.parse(JSON.stringify(r));
         shQ.free();
