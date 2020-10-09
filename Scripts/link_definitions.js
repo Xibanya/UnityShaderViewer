@@ -286,10 +286,10 @@ function FindIfSource()
             isSource = true;
             sourceName = shResult.ShaderName;
             if (shResult.Version != null && shResult.Version != "") versionNumber = shResult.Version;
-            SetTitle(shResult.FileName);
+            if (shResult.LinkName != null && shResult.LinkName != "") SetTitle(shResult.LinkName);
+            else SetTitle(shResult.FileName);
         }
     }
-
     AddFooter();
 }
 function SetTitle(titleText)
@@ -301,11 +301,7 @@ function SetTitle(titleText)
         title = document.createElement('title');
         head.appendChild(title);
     }
-    //dumb hack to get around DepthOfField.hlsl and DepthOfField.shader 
-    //sharing a directory, TODO: eventually make my system smarter so I 
-    //don't have to do this
-    if (titleText == "DepthOField") title.innerText = "DepthOfField";
-    else title.innerText = titleText;
+    title.innerText = titleText;
 }
 function AddFooter()
 {
