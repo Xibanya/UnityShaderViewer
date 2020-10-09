@@ -11,8 +11,8 @@ Shader "Sprites/Default"
         [MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
         [HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
         [HideInInspector] _Flip ("Flip", Vector) = (1,1,1,1)
-        [PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
-        [PerRendererData] _EnableExternalAlpha ("Enable External Alpha", Float) = 0
+        [PerRendererData] _AlphaTex ("External Alph<!-- no link pls -->a", 2D) = "white" {}
+        [PerRendererData] _EnableExternalAlpha ("Enable External Alph<!-- no link pls -->a", Float) = 0
     }
 
     SubShader
@@ -27,7 +27,7 @@ Shader "Sprites/Default"
         }
 
         Cull Off
-        Lighting Off
+        Lightin<!-- no link pls -->g Off
         ZWrite Off
         Blend One OneMinusSrcAlpha
 

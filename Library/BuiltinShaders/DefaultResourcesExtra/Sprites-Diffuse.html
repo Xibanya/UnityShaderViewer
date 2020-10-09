@@ -27,7 +27,7 @@ Shader "Sprites/Diffuse"
         }
 
         Cull Off
-        Lighting Off
+        Lightin<!-- no link pls -->g Off
         ZWrite Off
         Blend One OneMinusSrcAlpha
 
@@ -58,8 +58,8 @@ Shader "Sprites/Diffuse"
         void surf (Input IN, inout SurfaceOutput o)
         {
             fixed4 c = SampleSpriteTexture (IN.uv_MainTex) * IN.color;
-            o.Albedo = c.rgb * c.a;
-            o.Alpha = c.a;
+            o.Albed<!-- no link pls -->o = c.rgb * c.a;
+            o.Alph<!-- no link pls -->a = c.a;
         }
         ENDCG
     }
